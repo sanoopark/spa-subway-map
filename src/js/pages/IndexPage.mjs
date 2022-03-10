@@ -1,8 +1,14 @@
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import subwayEmoji from "images/subway_emoji.png";
+import { localStorage } from "js/storage.mjs";
 
 export default class IndexPage extends Component {
+  mounted() {
+    const isLoggedIn = localStorage.get("isLoggedIn");
+    new Header(this.target, { isLoggedIn });
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
     const { isLoggedIn } = this.state;

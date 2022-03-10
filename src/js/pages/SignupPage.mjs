@@ -1,10 +1,16 @@
 import "css/pages/auth.css";
 import Component from "js/core/Component.mjs";
+import Header from "js/components/Header.mjs";
 import { localStorage } from "js/storage.mjs";
 import { MESSAGE } from "js/constants.mjs";
 import { redirect } from "js/router.mjs";
 
 export default class SignupPage extends Component {
+  mounted() {
+    const isLoggedIn = localStorage.get("isLoggedIn");
+    new Header(this.target, { isLoggedIn });
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
 

@@ -1,10 +1,16 @@
 import "css/pages/auth.css";
 import Component from "js/core/Component.mjs";
+import Header from "js/components/Header.mjs";
 import { MESSAGE } from "js/constants.mjs";
 import { localStorage } from "js/storage.mjs";
 import { redirect } from "js/router.mjs";
 
 export default class LoginPage extends Component {
+  mounted() {
+    const isLoggedIn = localStorage.get("isLoggedIn");
+    new Header(this.target, { isLoggedIn });
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
 
@@ -84,7 +90,6 @@ export default class LoginPage extends Component {
 
     localStorage.set("isLoggedIn", true);
     redirect("/");
-    this.state.setIsLoggedIn(true);
   }
 
   #processUserInputValues(inputSelector) {

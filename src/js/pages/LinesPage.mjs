@@ -1,9 +1,13 @@
 import "css/pages/lines.css";
 import Component from "js/core/Component.mjs";
+import Header from "js/components/Header.mjs";
 import { colorOptions } from "js/utils/mock.js";
 
 export default class LinesPage extends Component {
   mounted() {
+    const isLoggedIn = localStorage.get("isLoggedIn");
+    new Header(this.target, { isLoggedIn });
+
     this.getSubwayLineColorSelector();
   }
 

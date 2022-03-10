@@ -1,7 +1,13 @@
 import "css/pages/sections.css";
 import Component from "js/core/Component.mjs";
+import Header from "js/components/Header.mjs";
 
 export default class SectionsPage extends Component {
+  mounted() {
+    const isLoggedIn = localStorage.get("isLoggedIn");
+    new Header(this.target, { isLoggedIn });
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
 
