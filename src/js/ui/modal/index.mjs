@@ -10,5 +10,5 @@ const onModalClose = () => {
   $modal.classList.remove("open");
 };
 
-$modalTriggerBtn.addEventListener("click", onModalShow);
-$modalClose.addEventListener("click", onModalClose);
+$modalTriggerBtn?.addEventListener("click", onModalShow);
+$modalClose?.addEventListener("click", onModalClose);

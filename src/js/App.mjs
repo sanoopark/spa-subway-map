@@ -1,6 +1,7 @@
 import Component from "./core/Component.mjs";
 import Header from "./components/Header.mjs";
 import LinesPage from "./pages/LinesPage.mjs";
+import StationsPage from "./pages/StationsPage.mjs";
 
 export default class App extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export default class App extends Component {
 
     new Header(this.target);
     new LinesPage(this.target);
+    new StationsPage(this.target);
   }
 
   render() {
