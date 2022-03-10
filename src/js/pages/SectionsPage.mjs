@@ -1,15 +1,12 @@
 import "css/pages/sections.css";
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
+import { localStorage } from "js/storage.mjs";
 
 export default class SectionsPage extends Component {
-  mounted() {
-    const isLoggedIn = localStorage.get("isLoggedIn");
-    new Header(this.target, { isLoggedIn });
-  }
-
   render() {
     const mainElement = this.target.querySelector("main");
+    const isLoggedIn = localStorage.get("isLoggedIn");
 
     mainElement.innerHTML = `
       <div class="wrapper bg-white p-10">
@@ -51,6 +48,8 @@ export default class SectionsPage extends Component {
         </ul>
       </div>
     `;
+
+    new Header(this.target, { isLoggedIn });
 
     const template = document.createElement("template");
 

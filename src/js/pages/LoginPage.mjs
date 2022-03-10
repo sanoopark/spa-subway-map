@@ -6,13 +6,9 @@ import { localStorage } from "js/storage.mjs";
 import { redirect } from "js/router.mjs";
 
 export default class LoginPage extends Component {
-  mounted() {
-    const isLoggedIn = localStorage.get("isLoggedIn");
-    new Header(this.target, { isLoggedIn });
-  }
-
   render() {
     const mainElement = this.target.querySelector("main");
+    const isLoggedIn = localStorage.get("isLoggedIn");
 
     mainElement.innerHTML = `
       <div class="wrapper p-10 bg-white">
@@ -56,6 +52,8 @@ export default class LoginPage extends Component {
         </p>
       </form>
     `;
+
+    new Header(this.target, { isLoggedIn });
   }
 
   setEvent() {

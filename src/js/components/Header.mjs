@@ -1,5 +1,6 @@
 import Component from "js/core/Component.mjs";
 import { redirect } from "js/router.mjs";
+import { localStorage } from "js/storage.mjs";
 
 export default class Header extends Component {
   render() {
@@ -60,6 +61,16 @@ export default class Header extends Component {
     if (!linkElement) return;
 
     const pathname = `/${linkElement.href.split("/")[3]}`;
+
+    if (pathname === "/") {
+      this.#logout();
+    }
+
     redirect(pathname);
+  }
+
+  #logout() {
+    localStorage.set("isLoggedIn", false);
+    window.location.reload();
   }
 }
