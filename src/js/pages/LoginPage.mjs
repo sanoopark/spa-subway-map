@@ -12,46 +12,43 @@ export default class LoginPage extends Component {
       <div class="wrapper p-10 bg-white">
         <div class="heading">
         <h2>👋 로그인</h2>
-        </div>
-        <form name="login" class="form">
+      </div>
+      <form name="login" class="form">
         <div class="input-control">
-            <label for="email" class="input-label" hidden>이메일</label>
-            <input
+          <label for="email" class="input-label" hidden>이메일</label>
+          <input
             type="email"
             id="email"
             name="email"
             class="input-field"
             placeholder="이메일"
             required
-            />
+          />
         </div>
         <div class="input-control">
-            <label for="password" class="input-label" hidden
-            >비밀번호</label
-            >
-            <input
+          <label for="password" class="input-label" hidden>비밀번호</label>
+          <input
             type="password"
             id="password"
             name="password"
             class="input-field"
             placeholder="비밀번호"
-            />
+          />
         </div>
         <div class="input-control w-100">
-            <button
+          <button
             type="button"
             name="submit"
             class="input-submit w-100 bg-cyan-300"
-            >
-            확인
-            </button>
+          >
+          확인
+          </button>
         </div>
         <p class="text-gray-700 pl-2">
-            아직 회원이 아니신가요?
-            <a href="/pages/signup.html">회원가입</a>
+          아직 회원이 아니신가요?
+          <a href="/signup" class="link-signup">회원가입</a>
         </p>
-        </form>
-      </div>
+      </form>
     `;
   }
 
@@ -61,8 +58,18 @@ export default class LoginPage extends Component {
       selector: ".input-submit",
       callback: this.handleLoginButton,
     });
+
+    this.addEvent({
+      eventType: "click",
+      selector: ".link-signup",
+      callback: this.onClickRedirect,
+    });
   }
 
+  /**
+   * @todo 유효성 검사 추가
+   * @todo 로컬스토리지 -> API
+   */
   handleLoginButton() {
     const inputValues = this.#processUserInputValues(".input-field");
     const userAuthInfo = localStorage.get("userAuthInfo");
@@ -80,18 +87,18 @@ export default class LoginPage extends Component {
   }
 
   #processUserInputValues(inputSelector) {
-    // const userAuthInfo = {};
     const inputNodes = [...this.target.querySelectorAll(inputSelector)];
     const inputValues = inputNodes.map((node) => [node.id, node.value]);
     return inputValues;
-    // inputValues.forEach(([key, value]) => (userAuthInfo[key] = value));
-    // return userAuthInfo;
   }
 
-  // #checkValidation(userAuthInfo) {
-  //   const { password, "password-confirm": passwordConfirm } = userAuthInfo;
-  //   const isConfirmedPassword = password === passwordConfirm;
-  //   const isEmptyInput = Object.values(userAuthInfo).some((value) => !value);
-  //   return [isConfirmedPassword, isEmptyInput];
-  // }
+  onClickRedirect(e) {
+    e.preventDefault();
+
+    const linkElement = e.target.closest("a");
+    if (!linkElement) return;
+
+    const pathname = `/${linkElement.href.split("/")[3]}`;
+    redirect(pathname);
+  }
 }
