@@ -84,6 +84,7 @@ export default class LoginPage extends Component {
 
     localStorage.set("isLoggedIn", true);
     redirect("/");
+    this.state.setIsLoggedIn(true);
   }
 
   #processUserInputValues(inputSelector) {

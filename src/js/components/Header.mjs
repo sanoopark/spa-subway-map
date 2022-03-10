@@ -3,30 +3,45 @@ import { redirect } from "js/router.mjs";
 
 export default class Header extends Component {
   render() {
-    this.target.querySelector("header").innerHTML = `
+    const headerElement = this.target.querySelector("header");
+    const { isLoggedIn } = this.state;
+
+    headerElement.innerHTML = `
       <a href="/" class="text-black">
         <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
       </a>
-      <nav class="d-flex justify-center flex-wrap">
-        <a href="/stations" class="my-1">
-          <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
-        </a>
-        <a href="/lines" class="my-1">
-          <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
-        </a>
-        <a href="/sections" class="my-1">
-          <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
-        </a>
-        <a href="/map" class="my-1">
-          <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
-        </a>
-        <a href="/search" class="my-1">
-          <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
-        </a>
-        <a href="/login" class="my-1">
-          <button class="btn bg-white shadow mx-1">👤 로그인</button>
-        </a>
-      </nav>
+      ${
+        isLoggedIn
+          ? `
+          <nav class="d-flex justify-center flex-wrap">
+            <a href="/stations" class="my-1">
+              <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
+            </a>
+            <a href="/lines" class="my-1">
+              <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
+            </a>
+            <a href="/sections" class="my-1">
+              <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
+            </a>
+            <a href="/map" class="my-1">
+              <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
+            </a>
+            <a href="/search" class="my-1">
+              <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
+            </a>
+            <a href="/" class="my-1">
+              <button class="btn bg-white shadow mx-1">👤 로그아웃</button>
+            </a>
+          </nav>
+            `
+          : `
+          <nav class="d-flex justify-center flex-wrap">
+            <a href="/login" class="my-1">
+              <button class="btn bg-white shadow mx-1">👤 로그인</button>
+            </a>
+          </nav>
+        `
+      }
     `;
   }
 
