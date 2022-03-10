@@ -1,13 +1,13 @@
 import Component from "./core/Component.mjs";
 import Header from "./components/Header.mjs";
-import Lines from "./pages/lines.js";
+import LinesPage from "./pages/LinesPage.mjs";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     new Header(this.target);
-    new Lines(this.target);
+    new LinesPage(this.target);
   }
 
   render() {
