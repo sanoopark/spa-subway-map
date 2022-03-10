@@ -12,12 +12,17 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
-    new Header(this.target);
     browserRoute(this.routes);
     this.routes();
   }
 
   routes() {
+    route({
+      path: [/^\/?$/i],
+      component: App,
+      target: this.target,
+    });
+
     route({
       path: [/^\/lines\/?$/i],
       component: LinesPage,
@@ -67,5 +72,7 @@ export default class App extends Component {
         </div>
       </div>
     `;
+
+    new Header(this.target);
   }
 }
