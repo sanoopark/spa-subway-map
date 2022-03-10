@@ -1,5 +1,6 @@
-import Component from "../core/Component.mjs";
-import { colorOptions } from "/src/js/utils/mock.js";
+import "css/pages/lines.css";
+import Component from "js/core/Component.mjs";
+import { colorOptions } from "js/utils/mock.js";
 
 export default class LinesPage extends Component {
   mounted() {

@@ -1,4 +1,5 @@
-import Component from "../core/Component.mjs";
+import "css/pages/sections.css";
+import Component from "js/core/Component.mjs";
 
 export default class SectionsPage extends Component {
   render() {

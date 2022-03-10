@@ -1,4 +1,4 @@
-import Component from "../core/Component.mjs";
+import Component from "js/core/Component.mjs";
 
 export default class StationsPage extends Component {
   render() {

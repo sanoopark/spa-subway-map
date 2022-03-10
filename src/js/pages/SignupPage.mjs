@@ -1,4 +1,5 @@
-import Component from "../core/Component.mjs";
+import Component from "js/core/Component.mjs";
+import "css/pages/auth.css";
 
 export default class SignupPage extends Component {
   render() {

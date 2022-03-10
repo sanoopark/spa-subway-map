@@ -1,5 +1,5 @@
-import Component from "../core/Component.mjs";
-import { redirect } from "../router.mjs";
+import Component from "js/core/Component.mjs";
+import { redirect } from "js/router.mjs";
 
 export default class Header extends Component {
   render() {
