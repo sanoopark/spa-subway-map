@@ -1,0 +1,4 @@
+export const MESSAGE = {
+  INPUT_EMPTY: "모든 정보를 입력해 주세요",
+  PASSWORD_DISCORD: "비밀번호가 일치하지 않습니다",
+};
