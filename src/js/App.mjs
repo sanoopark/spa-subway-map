@@ -6,17 +6,47 @@ import SectionsPage from "js/pages/SectionsPage.mjs";
 import LoginPage from "js/pages/LoginPage.mjs";
 import SignupPage from "js/pages/SignupPage.mjs";
 import subwayEmoji from "images/subway_emoji.png";
+import { browserRoute, redirect, route } from "./router.mjs";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     new Header(this.target);
-    new LinesPage(this.target);
-    new StationsPage(this.target);
-    new SectionsPage(this.target);
-    new LoginPage(this.target);
-    new SignupPage(this.target);
+    browserRoute(this.routes);
+    this.routes();
+  }
+
+  routes() {
+    route({
+      path: [/^\/lines\/?$/i],
+      component: LinesPage,
+      target: this.target,
+    });
+
+    route({
+      path: [/^\/stations\/?$/i],
+      component: StationsPage,
+      target: this.target,
+    });
+
+    route({
+      path: [/^\/sections\/?$/i],
+      component: SectionsPage,
+      target: this.target,
+    });
+
+    route({
+      path: [/^\/login\/?$/i],
+      component: LoginPage,
+      target: this.target,
+    });
+
+    route({
+      path: [/^\/signup\/?$/i],
+      component: SignupPage,
+      target: this.target,
+    });
   }
 
   render() {
