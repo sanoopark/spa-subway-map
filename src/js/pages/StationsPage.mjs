@@ -2,7 +2,9 @@ import Component from "js/core/Component.mjs";
 
 export default class StationsPage extends Component {
   render() {
-    this.target.querySelector("main").innerHTML = `
+    const mainElement = this.target.querySelector("main");
+
+    mainElement.innerHTML = `
       <div class="wrapper bg-white p-10">
         <div class="heading">
         <h2 class="mt-1">🚉 역 관리</h2>

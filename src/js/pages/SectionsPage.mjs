@@ -3,7 +3,9 @@ import Component from "js/core/Component.mjs";
 
 export default class SectionsPage extends Component {
   render() {
-    this.target.querySelector("main").innerHTML = `
+    const mainElement = this.target.querySelector("main");
+
+    mainElement.innerHTML = `
       <div class="wrapper bg-white p-10">
         <div class="heading d-flex">
         <h2 class="mt-1 w-100">🔁 구간 관리</h2>
@@ -103,7 +105,8 @@ export default class SectionsPage extends Component {
     `;
 
     const modalElement = template.content.firstElementChild;
+    const rootElement = document.body.firstElementChild;
 
-    this.target.insertAdjacentElement("beforeend", modalElement);
+    rootElement.insertAdjacentElement("beforeend", modalElement);
   }
 }

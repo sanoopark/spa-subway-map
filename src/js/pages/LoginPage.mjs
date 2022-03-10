@@ -1,9 +1,14 @@
-import Component from "js/core/Component.mjs";
 import "css/pages/auth.css";
+import Component from "js/core/Component.mjs";
+import { MESSAGE } from "js/constants.mjs";
+import { localStorage } from "js/storage.mjs";
+import { redirect } from "js/router.mjs";
 
 export default class LoginPage extends Component {
   render() {
-    this.target.querySelector("main").innerHTML = `
+    const mainElement = this.target.querySelector("main");
+
+    mainElement.innerHTML = `
       <div class="wrapper p-10 bg-white">
         <div class="heading">
         <h2>👋 로그인</h2>
@@ -49,4 +54,44 @@ export default class LoginPage extends Component {
       </div>
     `;
   }
+
+  setEvent() {
+    this.addEvent({
+      eventType: "click",
+      selector: ".input-submit",
+      callback: this.handleLoginButton,
+    });
+  }
+
+  handleLoginButton() {
+    const inputValues = this.#processUserInputValues(".input-field");
+    const userAuthInfo = localStorage.get("userAuthInfo");
+    const isLoginSuccess = inputValues.every(
+      ([key, value]) => userAuthInfo[key] === value
+    );
+
+    if (!isLoginSuccess) {
+      alert(MESSAGE.WRONG_INFO);
+      return;
+    }
+
+    localStorage.set("isLoggedIn", true);
+    redirect("/");
+  }
+
+  #processUserInputValues(inputSelector) {
+    // const userAuthInfo = {};
+    const inputNodes = [...this.target.querySelectorAll(inputSelector)];
+    const inputValues = inputNodes.map((node) => [node.id, node.value]);
+    return inputValues;
+    // inputValues.forEach(([key, value]) => (userAuthInfo[key] = value));
+    // return userAuthInfo;
+  }
+
+  // #checkValidation(userAuthInfo) {
+  //   const { password, "password-confirm": passwordConfirm } = userAuthInfo;
+  //   const isConfirmedPassword = password === passwordConfirm;
+  //   const isEmptyInput = Object.values(userAuthInfo).some((value) => !value);
+  //   return [isConfirmedPassword, isEmptyInput];
+  // }
 }

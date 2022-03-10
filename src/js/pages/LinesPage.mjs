@@ -8,7 +8,9 @@ export default class LinesPage extends Component {
   }
 
   render() {
-    this.target.querySelector("main").innerHTML = `
+    const mainElement = this.target.querySelector("main");
+
+    mainElement.innerHTML = `
       <div class="wrapper bg-white p-10">
       <div class="heading d-flex">
         <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
@@ -146,8 +148,9 @@ export default class LinesPage extends Component {
     `;
 
     const modalElement = template.content.firstElementChild;
+    const rootElement = document.body.firstElementChild;
 
-    this.target.insertAdjacentElement("beforeend", modalElement);
+    rootElement.insertAdjacentElement("beforeend", modalElement);
   }
 
   getSubwayLineColorSelector() {

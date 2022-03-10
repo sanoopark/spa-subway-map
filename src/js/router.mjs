@@ -22,7 +22,14 @@ export const browserRoute = (callback) => {
   window.addEventListener("popstate", callback);
 };
 
-export const route = ({ path: targetRegex, component, target, state = {} }) => {
+const rootElement = document.body.firstElementChild;
+
+export const route = ({
+  path: targetRegex,
+  component,
+  target = rootElement,
+  state = {},
+}) => {
   const { pathname: currentPath } = window.location;
 
   if (Array.isArray(targetRegex)) {

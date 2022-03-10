@@ -6,7 +6,9 @@ import { redirect } from "js/router.mjs";
 
 export default class SignupPage extends Component {
   render() {
-    this.target.querySelector("main").innerHTML = `
+    const mainElement = this.target.querySelector("main");
+
+    mainElement.innerHTML = `
       <div class="wrapper p-10 bg-white">
         <div class="heading">
         <h2 class="text">📝 회원가입</h2>
