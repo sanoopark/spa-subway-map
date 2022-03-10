@@ -3,6 +3,7 @@ import Header from "./components/Header.mjs";
 import LinesPage from "./pages/LinesPage.mjs";
 import StationsPage from "./pages/StationsPage.mjs";
 import SectionsPage from "./pages/SectionsPage.mjs";
+import LoginPage from "./pages/LoginPage.mjs";
 
 export default class App extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class App extends Component {
     new LinesPage(this.target);
     new StationsPage(this.target);
     new SectionsPage(this.target);
+    new LoginPage(this.target);
   }
 
   render() {
