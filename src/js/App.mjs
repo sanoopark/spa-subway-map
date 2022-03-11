@@ -17,32 +17,32 @@ export default class App extends Component {
 
   routes() {
     route({
-      path: [/^\/?$/i],
+      path: "/",
       component: IndexPage,
     });
 
     route({
-      path: [/^\/lines\/?$/i],
+      path: "/lines",
       component: LinesPage,
     });
 
     route({
-      path: [/^\/stations\/?$/i],
+      path: "/stations",
       component: StationsPage,
     });
 
     route({
-      path: [/^\/sections\/?$/i],
+      path: "/sections",
       component: SectionsPage,
     });
 
     route({
-      path: [/^\/login\/?$/i],
+      path: "/login",
       component: LoginPage,
     });
 
     route({
-      path: [/^\/signup\/?$/i],
+      path: "/signup",
       component: SignupPage,
     });
   }
