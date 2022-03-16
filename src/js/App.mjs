@@ -1,5 +1,4 @@
 import Component from "js/core/Component.mjs";
-import Header from "js/components/Header.mjs";
 import LinesPage from "js/pages/LinesPage.mjs";
 import StationsPage from "js/pages/StationsPage.mjs";
 import SectionsPage from "js/pages/SectionsPage.mjs";
@@ -18,31 +17,37 @@ export default class App extends Component {
   routes() {
     route({
       path: "/",
+      target: this.target,
       component: IndexPage,
     });
 
     route({
       path: "/lines",
+      target: this.target,
       component: LinesPage,
     });
 
     route({
       path: "/stations",
+      target: this.target,
       component: StationsPage,
     });
 
     route({
       path: "/sections",
+      target: this.target,
       component: SectionsPage,
     });
 
     route({
       path: "/login",
+      target: this.target,
       component: LoginPage,
     });
 
     route({
       path: "/signup",
+      target: this.target,
       component: SignupPage,
     });
   }
