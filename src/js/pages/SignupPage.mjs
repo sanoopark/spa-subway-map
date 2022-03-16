@@ -8,7 +8,6 @@ import { redirect } from "js/router.mjs";
 export default class SignupPage extends Component {
   render() {
     const mainElement = this.target.querySelector("main");
-    const isLoggedIn = localStorage.get("isLoggedIn");
 
     mainElement.innerHTML = `
       <div class="wrapper p-10 bg-white">
@@ -75,7 +74,7 @@ export default class SignupPage extends Component {
       </div>
     `;
 
-    new Header(this.target, { isLoggedIn });
+    new Header(this.target);
   }
 
   setEvent() {

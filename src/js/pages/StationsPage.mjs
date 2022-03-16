@@ -5,7 +5,6 @@ import { localStorage } from "js/storage.mjs";
 export default class StationsPage extends Component {
   render() {
     const mainElement = this.target.querySelector("main");
-    const isLoggedIn = localStorage.get("isLoggedIn");
 
     mainElement.innerHTML = `
       <div class="wrapper bg-white p-10">
@@ -68,6 +67,6 @@ export default class StationsPage extends Component {
       </div>
     `;
 
-    new Header(this.target, { isLoggedIn });
+    new Header(this.target);
   }
 }

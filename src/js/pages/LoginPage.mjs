@@ -4,11 +4,11 @@ import Header from "js/components/Header.mjs";
 import { MESSAGE } from "js/constants.mjs";
 import { localStorage } from "js/storage.mjs";
 import { redirect } from "js/router.mjs";
+import { store } from "../core/store.js";
 
 export default class LoginPage extends Component {
   render() {
     const mainElement = this.target.querySelector("main");
-    const isLoggedIn = localStorage.get("isLoggedIn");
 
     mainElement.innerHTML = `
       <div class="wrapper p-10 bg-white">
@@ -53,7 +53,7 @@ export default class LoginPage extends Component {
       </form>
     `;
 
-    new Header(this.target, { isLoggedIn });
+    new Header(this.target);
   }
 
   setEvent() {
@@ -76,7 +76,7 @@ export default class LoginPage extends Component {
    */
   handleLoginButton() {
     const inputValues = this.#processUserInputValues(".input-field");
-    const userAuthInfo = localStorage.get("userAuthInfo");
+    const userAuthInfo = localStorage.get("userAuthInfo") || {};
     const isLoginSuccess = inputValues.every(
       ([key, value]) => userAuthInfo[key] === value
     );
@@ -86,7 +86,7 @@ export default class LoginPage extends Component {
       return;
     }
 
-    localStorage.set("isLoggedIn", true);
+    store.setState({ isLoggedIn: true });
     redirect("/");
   }
 

@@ -1,12 +1,12 @@
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
-import { localStorage } from "js/storage.mjs";
 import subwayEmoji from "images/subway_emoji.png";
+import { store } from "../core/store.js";
 
 export default class IndexPage extends Component {
   render() {
+    const { isLoggedIn } = store.state;
     const mainElement = this.target.querySelector("main");
-    const isLoggedIn = localStorage.get("isLoggedIn");
 
     mainElement.innerHTML = `
       <div class="d-flex flex-col">
@@ -21,6 +21,6 @@ export default class IndexPage extends Component {
       </div>
     `;
 
-    new Header(this.target, { isLoggedIn });
+    new Header(this.target);
   }
 }

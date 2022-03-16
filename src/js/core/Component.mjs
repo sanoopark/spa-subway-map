@@ -1,3 +1,5 @@
+import { observe } from "./observer.js";
+
 export default class Component {
   constructor(target, props) {
     this.target = target;
@@ -5,6 +7,10 @@ export default class Component {
     this.render();
     this.setEvent();
     this.mounted();
+
+    observe(() => {
+      this.rerender();
+    });
   }
 
   render() {}
@@ -28,6 +34,10 @@ export default class Component {
       ...this.state,
       ...newState,
     };
+    this.rerender();
+  }
+
+  rerender() {
     this.render();
     this.setEvent();
   }

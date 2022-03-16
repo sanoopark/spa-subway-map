@@ -1,7 +1,6 @@
 import "css/pages/lines.css";
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
-import { localStorage } from "js/storage.mjs";
 import { colorOptions } from "js/utils/mock.js";
 
 export default class LinesPage extends Component {
@@ -11,7 +10,6 @@ export default class LinesPage extends Component {
 
   render() {
     const mainElement = this.target.querySelector("main");
-    const isLoggedIn = localStorage.get("isLoggedIn");
 
     mainElement.innerHTML = `
       <div class="wrapper bg-white p-10">
@@ -48,7 +46,7 @@ export default class LinesPage extends Component {
       </div>
     `;
 
-    new Header(this.target, { isLoggedIn });
+    new Header(this.target);
 
     const template = document.createElement("template");
 

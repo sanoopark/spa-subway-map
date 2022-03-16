@@ -1,11 +1,11 @@
 import Component from "js/core/Component.mjs";
 import { redirect } from "js/router.mjs";
-import { localStorage } from "js/storage.mjs";
+import { store } from "../core/store.js";
 
 export default class Header extends Component {
   render() {
+    const { isLoggedIn } = store.state;
     const headerElement = this.target.querySelector("header");
-    const { isLoggedIn } = this.state;
 
     headerElement.innerHTML = `
       <a href="/" class="text-black">
@@ -58,19 +58,16 @@ export default class Header extends Component {
     e.preventDefault();
 
     const linkElement = e.target.closest("a");
-    if (!linkElement) return;
-
     const pathname = `/${linkElement.href.split("/")[3]}`;
 
-    if (pathname === "/") {
-      this.#logout();
-    }
+    if (!linkElement) return;
+    if (pathname === "/") this.#logout();
 
     redirect(pathname);
   }
 
   #logout() {
-    localStorage.set("isLoggedIn", false);
-    window.location.reload();
+    store.setState({ isLoggedIn: false });
+    redirect("/");
   }
 }
