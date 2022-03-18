@@ -1,6 +1,7 @@
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import { localStorage } from "js/storage.mjs";
+import { isDuplication, isValidLength } from "../utils/helpers.mjs";
 
 export default class StationsPage extends Component {
   render() {
@@ -66,8 +67,12 @@ export default class StationsPage extends Component {
 
   handleButtonSubmit() {
     const userInput = this.target.querySelector(".input-field").value;
-    const { stationList } = this.state;
-    this.setState({ stationList: [...stationList, userInput] });
+    const { stationList: prevList } = this.state;
+
+    if (isValidLength({ userInput, min: 2, max: 20 })) return;
+    if (isDuplication({ element: userInput, array: prevList })) return;
+
+    this.setState({ stationList: [...prevList, userInput] });
     localStorage.set("stationList", this.state.stationList);
   }
 }
