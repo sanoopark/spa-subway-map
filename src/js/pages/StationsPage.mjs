@@ -24,10 +24,9 @@ export default class StationsPage extends Component {
               name="stationName"
               class="input-field"
               placeholder="역 이름"
-              required
             />
             <button
-              type="button"
+              type="submit"
               name="submit"
               class="input-submit bg-cyan-300 ml-2"
             >
@@ -59,13 +58,15 @@ export default class StationsPage extends Component {
 
   setEvent() {
     this.addEvent({
-      eventType: "click",
-      selector: ".input-submit",
+      eventType: "submit",
+      selector: "form",
       callback: this.handleButtonSubmit,
     });
   }
 
-  handleButtonSubmit() {
+  handleButtonSubmit(e) {
+    e.preventDefault();
+
     const userInput = this.target.querySelector(".input-field").value;
     const { stationList: prevList } = this.state;
 
