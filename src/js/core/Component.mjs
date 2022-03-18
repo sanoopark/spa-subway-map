@@ -35,10 +35,13 @@ export default class Component {
       ...newState,
     };
     this.rerender();
+    this.updated();
   }
 
   rerender() {
     this.render();
     this.setEvent();
   }
+
+  updated() {}
 }
