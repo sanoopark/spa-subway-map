@@ -19,25 +19,36 @@
 
 ## 🎯 step1
 
-### Webpack을 통한 번g들링
+### Webpack을 통한 번들링
 
-- [ ] Webpack에서 babel을 설정한다.
-- [ ] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
+- [x] Webpack에서 babel을 설정한다.
+- [x] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
+  - style-loader, css-loader
+  - historyApiFallback
+  - alias
 
 ### 라우팅 기능
 
-- [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+  - 개인 라이브러리 [vanila-spa-router](https://github.com/sanoopark/vanila-spa-router) 사용
 
 ### 회원 기능
 
-- [ ] 유저는 회원 가입을 할 수 있다,
-  - [ ] 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
-- [ ] 유저는 로그인 할 수 있다.
-  - [ ] 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
+- [x] 유저는 회원 가입을 할 수 있다,
+  - [x] 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
+    - 유효성 검사는 우선 생략한다.
+    - 유저의 입력을 Local Storage에 임시로 저장한다.
+- [x] 유저는 로그인 할 수 있다.
+  - [x] 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
+    - Observer Pattern으로 Store를 구현해 `isLoggedIn` 상태를 전역으로 관리한다.
+    - 사용자의 로그인 입력을 Local Storage의 값과 대조한다.
+    - 대조에 성공하면 전역 상태 `isLoggedIn`을 `true`로 변경한다.
   - [ ] 로그인한 유저만, 정보의 수정이 가능하다.
-  - [ ] 로그인하지 않은 유저에게는 로그인 외 다른 버튼은 보이지 않는다.
-- [ ] 유저는 로그아웃할 수 있다.
-  - [ ] 로그아웃하면 `/` 루트 페이지로 돌아온다.
+  - [x] 로그인하지 않은 유저에게는 로그인 외 다른 버튼은 보이지 않는다.
+    - 전역 상태 `isLoggedIn`을 통해 조건부 렌더링한다.
+- [x] 유저는 로그아웃할 수 있다.
+  - [x] 로그아웃하면 `/` 루트 페이지로 돌아온다.
+    - 전역 상태 `isLoggedIn`을 `false`로 변경한다.
 
 ## 🎯🎯 step2
 
