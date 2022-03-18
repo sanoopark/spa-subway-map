@@ -6,6 +6,7 @@ import LoginPage from "js/pages/LoginPage.mjs";
 import SignupPage from "js/pages/SignupPage.mjs";
 import IndexPage from "./pages/IndexPage.mjs";
 import { browserRoute, route } from "./router.mjs";
+import { localStorage } from "js/storage.mjs";
 
 export default class App extends Component {
   constructor(target) {
@@ -31,6 +32,9 @@ export default class App extends Component {
       path: "/stations",
       target: this.target,
       component: StationsPage,
+      state: {
+        stationList: localStorage.get("stationList") || [],
+      },
     });
 
     route({
