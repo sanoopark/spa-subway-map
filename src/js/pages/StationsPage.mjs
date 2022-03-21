@@ -3,6 +3,7 @@ import Header from "js/components/Header.mjs";
 import { localStorage } from "js/storage.mjs";
 import { isDuplication, isValidLength } from "js/utils/helpers.mjs";
 import SectionsModal from "js/components/modals/SectionsModal.mjs";
+import { MESSAGE } from "js/constants.mjs";
 
 export default class StationsPage extends Component {
   constructor(...props) {
@@ -115,8 +116,9 @@ export default class StationsPage extends Component {
 
   handleDeleteButton({ target }) {
     if (!target.closest("button[name=delete]")) return;
-    const { index: stationIndex } = target.closest("li").dataset;
+    if (!confirm(MESSAGE.CONFIRM_DELETE)) return;
 
+    const { index: stationIndex } = target.closest("li").dataset;
     const { stationList } = this.state;
     const newStationList = [...stationList];
     newStationList.splice(stationIndex, 1);
