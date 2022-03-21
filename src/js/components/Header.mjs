@@ -1,6 +1,7 @@
 import Component from "js/core/Component.mjs";
 import { redirect } from "js/router.mjs";
-import { store } from "../core/store.js";
+import { store } from "js/core/store.js";
+import { localStorage } from "js/storage.mjs";
 
 export default class Header extends Component {
   render() {
@@ -68,6 +69,7 @@ export default class Header extends Component {
 
   #logout() {
     store.setState({ isLoggedIn: false });
+    localStorage.set("isLoggedIn", false);
     redirect("/");
   }
 }
