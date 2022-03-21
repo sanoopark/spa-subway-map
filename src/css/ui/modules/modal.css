@@ -20,6 +20,7 @@
 .modal-inner {
   transition: top 0.25s ease;
   max-width: 960px;
+  min-height: 480px;
   margin: auto;
   overflow: auto;
   background: #fff;
@@ -53,7 +54,6 @@ svg {
 @media screen and (max-width: 768px) {
   .modal-inner {
     width: 90%;
-    height: 90%;
     box-sizing: border-box;
   }
 }

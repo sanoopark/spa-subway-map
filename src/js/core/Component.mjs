@@ -20,7 +20,7 @@ export default class Component {
   mounted() {}
 
   addEvent({ eventType, selector, callback }) {
-    const element = document.querySelector(selector);
+    const element = this.target.querySelector(selector);
     const isTarget = (target) => target.closest(selector);
 
     element.addEventListener(eventType, (event) => {

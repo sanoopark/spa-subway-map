@@ -34,6 +34,7 @@ export default class App extends Component {
       component: StationsPage,
       state: {
         stationList: localStorage.get("stationList") || [],
+        modalVisible: false,
       },
     });
 

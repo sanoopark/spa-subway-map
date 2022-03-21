@@ -1,9 +1,23 @@
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import { localStorage } from "js/storage.mjs";
-import { isDuplication, isValidLength } from "../utils/helpers.mjs";
+import { isDuplication, isValidLength } from "js/utils/helpers.mjs";
+import SectionsModal from "js/components/modals/SectionsModal.mjs";
 
 export default class StationsPage extends Component {
+  constructor(...props) {
+    super(...props);
+
+    const rootElement = this.target;
+    const modalElement = this.target.querySelector(".modal");
+
+    this.header = new Header(rootElement, {});
+    this.sectionsModal = new SectionsModal(modalElement, {
+      modalVisible: false,
+      handleModalSubmit: this.handleModalSubmit.bind(this),
+    });
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
     const { stationList } = this.state;
@@ -37,13 +51,13 @@ export default class StationsPage extends Component {
         <ul class="mt-3 pl-0">
           ${stationList
             .map(
-              (stationName) => `
-                <li class="station-list-item d-flex items-center py-2">
+              (stationName, index) => `
+                <li class="station-list-item d-flex items-center py-2" data-index="${index}" data-name="${stationName}">
                   <span class="w-100 pl-2">${stationName}</span>
-                  <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">
+                  <button type="button" name="edit" class="bg-gray-50 text-gray-500 text-sm mr-1">
                     수정
                   </button>
-                  <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
+                  <button type="button" name="delete" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
                 </li>
                 <hr class="my-0" />
               `
@@ -52,19 +66,23 @@ export default class StationsPage extends Component {
         </ul>
       </div>
     `;
-
-    new Header(this.target);
   }
 
   setEvent() {
     this.addEvent({
       eventType: "submit",
       selector: "form",
-      callback: this.handleButtonSubmit,
+      callback: this.handleSubmitButton,
+    });
+
+    this.addEvent({
+      eventType: "click",
+      selector: "ul",
+      callback: this.handleEditButton,
     });
   }
 
-  handleButtonSubmit(e) {
+  handleSubmitButton(e) {
     e.preventDefault();
 
     const userInput = this.target.querySelector(".input-field").value;
@@ -74,6 +92,32 @@ export default class StationsPage extends Component {
     if (isDuplication({ element: userInput, array: prevList })) return;
 
     this.setState({ stationList: [...prevList, userInput] });
+    localStorage.set("stationList", this.state.stationList);
+  }
+
+  handleEditButton({ target }) {
+    if (!target.closest("button[name=edit]")) return;
+    const { index: stationIndex, name: stationName } =
+      target.closest("li").dataset;
+
+    this.sectionsModal.setState({
+      modalVisible: true,
+      stationIndex,
+      stationName,
+    });
+  }
+
+  handleModalSubmit(e) {
+    e.preventDefault();
+    const formElement = e.target;
+    const stationIndex = Number(formElement.dataset.index);
+    const stationInputValue = formElement.querySelector("input").value;
+    const { stationList } = this.state;
+    const newStationList = [...stationList];
+    newStationList[stationIndex] = stationInputValue;
+
+    this.setState({ stationList: newStationList });
+    this.sectionsModal.setState({ modalVisible: false });
     localStorage.set("stationList", this.state.stationList);
   }
 }
