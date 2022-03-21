@@ -80,6 +80,12 @@ export default class StationsPage extends Component {
       selector: "ul",
       callback: this.handleEditButton,
     });
+
+    this.addEvent({
+      eventType: "click",
+      selector: "ul",
+      callback: this.handleDeleteButton,
+    });
   }
 
   handleSubmitButton(e) {
@@ -105,6 +111,18 @@ export default class StationsPage extends Component {
       stationIndex,
       stationName,
     });
+  }
+
+  handleDeleteButton({ target }) {
+    if (!target.closest("button[name=delete]")) return;
+    const { index: stationIndex } = target.closest("li").dataset;
+
+    const { stationList } = this.state;
+    const newStationList = [...stationList];
+    newStationList.splice(stationIndex, 1);
+
+    this.setState({ stationList: newStationList });
+    localStorage.set("stationList", this.state.stationList);
   }
 
   handleModalSubmit(e) {
