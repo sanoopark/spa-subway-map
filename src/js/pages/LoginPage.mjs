@@ -87,6 +87,7 @@ export default class LoginPage extends Component {
     }
 
     store.setState({ isLoggedIn: true });
+    localStorage.set("isLoggedIn", true);
     redirect("/");
   }
 

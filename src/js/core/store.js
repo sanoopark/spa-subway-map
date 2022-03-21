@@ -1,8 +1,9 @@
-import { observable } from "./observer.js";
+import { observable } from "js/core/observer.js";
+import { localStorage } from "js/storage.mjs";
 
 export const store = {
   state: observable({
-    isLoggedIn: false,
+    isLoggedIn: localStorage.get("isLoggedIn") || false,
   }),
 
   setState(newState) {
