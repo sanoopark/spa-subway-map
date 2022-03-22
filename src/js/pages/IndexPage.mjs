@@ -4,6 +4,14 @@ import subwayEmoji from "images/subway_emoji.png";
 import { store } from "../core/store.js";
 
 export default class IndexPage extends Component {
+  constructor(...props) {
+    super(...props);
+
+    const rootElement = this.target;
+
+    this.header = new Header(rootElement, {});
+  }
+
   render() {
     const { isLoggedIn } = store.state;
     const mainElement = this.target.querySelector("main");
@@ -20,7 +28,5 @@ export default class IndexPage extends Component {
         }
       </div>
     `;
-
-    new Header(this.target);
   }
 }

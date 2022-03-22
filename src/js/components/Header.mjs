@@ -32,7 +32,7 @@ export default class Header extends Component {
               <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
             </a>
             <a href="/" class="my-1">
-              <button class="btn bg-white shadow mx-1">👤 로그아웃</button>
+              <button class="btn bg-white shadow mx-1" name="logout">👤 로그아웃</button>
             </a>
           </nav>
             `
@@ -59,10 +59,13 @@ export default class Header extends Component {
     e.preventDefault();
 
     const linkElement = e.target.closest("a");
-    const pathname = `/${linkElement.href.split("/")[3]}`;
-
     if (!linkElement) return;
-    if (pathname === "/") this.#logout();
+    const logoutButton = linkElement.querySelector("button[name=logout]");
+    const pathname = `/${linkElement?.href.split("/")[3]}`;
+
+    if (logoutButton) {
+      this.#logout();
+    }
 
     redirect(pathname);
   }
@@ -70,6 +73,5 @@ export default class Header extends Component {
   #logout() {
     store.setState({ isLoggedIn: false });
     localStorage.set("isLoggedIn", false);
-    redirect("/");
   }
 }
