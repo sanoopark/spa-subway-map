@@ -75,9 +75,9 @@ export default class LoginPage extends Component {
    * @todo 로컬스토리지 -> API
    */
   handleLoginButton() {
-    const inputValues = this.#processUserInputValues(".input-field");
+    const inputValues = this.#processUserInputValues();
     const userAuthInfo = localStorage.get("userAuthInfo") || {};
-    const isLoginSuccess = inputValues.every(
+    const isLoginSuccess = Object.entries(inputValues).every(
       ([key, value]) => userAuthInfo[key] === value
     );
 
@@ -91,9 +91,11 @@ export default class LoginPage extends Component {
     redirect("/");
   }
 
-  #processUserInputValues(inputSelector) {
-    const inputNodes = [...this.target.querySelectorAll(inputSelector)];
-    const inputValues = inputNodes.map((node) => [node.id, node.value]);
+  #processUserInputValues() {
+    const formElement = this.target.querySelector("form[name=login]");
+    const inputNodes = [...formElement.querySelectorAll(".input-field")];
+    const inputValues = {};
+    inputNodes.forEach((node) => (inputValues[node.id] = node.value));
     return inputValues;
   }
 
