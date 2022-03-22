@@ -10,7 +10,7 @@ export default class StationsPage extends Component {
     super(...props);
 
     const rootElement = this.target;
-    const modalElement = this.target.querySelector(".modal");
+    const modalElement = document.querySelector(".modal");
 
     this.header = new Header(rootElement, {});
     this.sectionsModal = new SectionsModal(modalElement, {
