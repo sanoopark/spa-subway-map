@@ -3,6 +3,11 @@ import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 
 export default class SectionsPage extends Component {
+  mounted() {
+    const rootElement = this.target;
+    this.header = new Header(rootElement);
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
 
@@ -46,8 +51,6 @@ export default class SectionsPage extends Component {
         </ul>
       </div>
     `;
-
-    new Header(this.target);
 
     const template = document.createElement("template");
 

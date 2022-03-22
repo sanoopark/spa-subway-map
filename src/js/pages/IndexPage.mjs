@@ -4,12 +4,9 @@ import subwayEmoji from "images/subway_emoji.png";
 import { store } from "../core/store.js";
 
 export default class IndexPage extends Component {
-  constructor(...props) {
-    super(...props);
-
+  mounted() {
     const rootElement = this.target;
-
-    this.header = new Header(rootElement, {});
+    this.header = new Header(rootElement);
   }
 
   render() {

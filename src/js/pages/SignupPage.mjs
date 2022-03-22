@@ -6,6 +6,11 @@ import { MESSAGE } from "js/constants.mjs";
 import { redirect } from "js/router.mjs";
 
 export default class SignupPage extends Component {
+  mounted() {
+    const rootElement = this.target;
+    this.header = new Header(rootElement);
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
 
@@ -73,8 +78,6 @@ export default class SignupPage extends Component {
         </form>
       </div>
     `;
-
-    new Header(this.target);
   }
 
   setEvent() {

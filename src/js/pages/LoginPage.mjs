@@ -7,6 +7,11 @@ import { redirect } from "js/router.mjs";
 import { store } from "../core/store.js";
 
 export default class LoginPage extends Component {
+  mounted() {
+    const rootElement = this.target;
+    this.header = new Header(rootElement);
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
 
@@ -52,8 +57,6 @@ export default class LoginPage extends Component {
         </p>
       </form>
     `;
-
-    new Header(this.target);
   }
 
   setEvent() {

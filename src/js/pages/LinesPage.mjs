@@ -4,6 +4,11 @@ import Header from "js/components/Header.mjs";
 // import { colorOptions } from "js/utils/mock.js";
 
 export default class LinesPage extends Component {
+  mounted() {
+    const rootElement = this.target;
+    this.header = new Header(rootElement);
+  }
+
   render() {
     const mainElement = this.target.querySelector("main");
 
@@ -41,8 +46,6 @@ export default class LinesPage extends Component {
       </ul>
       </div>
     `;
-
-    new Header(this.target);
 
     const template = document.createElement("template");
 

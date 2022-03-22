@@ -6,13 +6,11 @@ import SectionsModal from "js/components/modals/SectionsModal.mjs";
 import { MESSAGE } from "js/constants.mjs";
 
 export default class StationsPage extends Component {
-  constructor(...props) {
-    super(...props);
-
+  mounted() {
     const rootElement = this.target;
     const modalElement = document.querySelector(".modal");
 
-    this.header = new Header(rootElement, {});
+    this.header = new Header(rootElement);
     this.sectionsModal = new SectionsModal(modalElement, {
       modalVisible: false,
       handleModalSubmit: this.handleModalSubmit.bind(this),
