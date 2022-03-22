@@ -1,13 +1,9 @@
 import "css/pages/lines.css";
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
-import { colorOptions } from "js/utils/mock.js";
+// import { colorOptions } from "js/utils/mock.js";
 
 export default class LinesPage extends Component {
-  mounted() {
-    this.getSubwayLineColorSelector();
-  }
-
   render() {
     const mainElement = this.target.querySelector("main");
 
@@ -149,27 +145,22 @@ export default class LinesPage extends Component {
         </div>
       </div>
     `;
-
-    const modalElement = template.content.firstElementChild;
-    const rootElement = document.body.firstElementChild;
-
-    rootElement.insertAdjacentElement("beforeend", modalElement);
   }
 
-  getSubwayLineColorSelector() {
-    const subwayLineColorOptionTemplate = (color, index) => {
-      const hasNewLine = (index + 1) % 7 === 0;
-      return `<button type="button" class="color-option bg-${color}"></button> ${
-        hasNewLine ? "<br/>" : ""
-      }`;
-    };
+  // getSubwayLineColorSelector() {
+  //   const subwayLineColorOptionTemplate = (color, index) => {
+  //     const hasNewLine = (index + 1) % 7 === 0;
+  //     return `<button type="button" class="color-option bg-${color}"></button> ${
+  //       hasNewLine ? "<br/>" : ""
+  //     }`;
+  //   };
 
-    const $subwayLineColorSelector = this.target.querySelector(
-      ".subway-line-color-selector"
-    );
+  //   const $subwayLineColorSelector = this.target.querySelector(
+  //     ".subway-line-color-selector"
+  //   );
 
-    $subwayLineColorSelector.innerHTML = colorOptions
-      .map(subwayLineColorOptionTemplate)
-      .join("");
-  }
+  //   $subwayLineColorSelector.innerHTML = colorOptions
+  //     .map(subwayLineColorOptionTemplate)
+  //     .join("");
+  // }
 }

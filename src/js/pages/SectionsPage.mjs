@@ -106,10 +106,5 @@ export default class SectionsPage extends Component {
         </div>
       </div>
     `;
-
-    const modalElement = template.content.firstElementChild;
-    const rootElement = document.body.firstElementChild;
-
-    rootElement.insertAdjacentElement("beforeend", modalElement);
   }
 }
