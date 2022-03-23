@@ -26,6 +26,9 @@ export default class App extends Component {
       path: "/lines",
       target: this.target,
       component: LinesPage,
+      state: {
+        lineList: localStorage.get("lineList") || [],
+      },
     });
 
     route({
@@ -34,7 +37,6 @@ export default class App extends Component {
       component: StationsPage,
       state: {
         stationList: localStorage.get("stationList") || [],
-        modalVisible: false,
       },
     });
 
