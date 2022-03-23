@@ -3,6 +3,7 @@ import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import LinesModal from "js/components/modals/LinesModal.mjs";
 import { localStorage } from "js/storage.mjs";
+import { isDuplication, isValidLength } from "js/utils/helpers.mjs";
 
 export default class LinesPage extends Component {
   mounted() {
@@ -99,12 +100,23 @@ export default class LinesPage extends Component {
     const distance = this.#getInputValue(formElement, "distance");
     const arrival = this.#getInputValue(formElement, "arrival");
     const color = this.#getColorClassName(formElement, "subway-line-color");
+    const lineInfo = {
+      lineName,
+      upStation,
+      downStation,
+      distance,
+      arrival,
+      color,
+    };
+
+    const { lineList: prevList } = this.state;
+    const lineNames = prevList.map(({ lineName }) => lineName);
+
+    if (isValidLength({ userInput: lineName, min: 2, max: 10 })) return;
+    if (isDuplication({ element: lineName, array: lineNames })) return;
 
     this.setState({
-      lineList: [
-        ...this.state.lineList,
-        { lineName, upStation, downStation, distance, arrival, color },
-      ],
+      lineList: [...prevList, lineInfo],
     });
     this.linesModal.setState({ modalVisible: false });
     localStorage.set("lineList", this.state.lineList);

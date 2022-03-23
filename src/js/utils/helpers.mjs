@@ -13,7 +13,7 @@ export function isValidLength({ userInput, min, max }) {
 
 export function isDuplication({ element, array }) {
   if (array.includes(element)) {
-    alert("중복된 역 이름입니다.");
+    alert("중복된 이름입니다.");
     return true;
   }
   return false;
