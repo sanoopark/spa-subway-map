@@ -16,7 +16,6 @@ export default class LinesPage extends Component {
     this.linesModal = new LinesModal(modalElement, {
       stationList,
       modalVisible: false,
-      handleColorSelect: this.handleColorSelect.bind(this),
       handleModalSubmit: this.handleModalSubmit.bind(this),
       selectedLineInfo: {},
       isEditing: false,
@@ -84,21 +83,33 @@ export default class LinesPage extends Component {
     });
   }
 
-  handleColorSelect({ target }) {
-    if (!target.closest("button")) return;
+  handleEditButton({ target }) {
+    if (!target.closest("button[name=edit]")) return;
+    const selectedLineId = Number(target.closest("li").dataset.id);
+    const selectedLineInfo = this.#getSelectedLineInfo(selectedLineId);
 
-    const colorClassName = target.name;
-    const inputElement = document.querySelector(
-      "input[name=subway-line-color]"
-    );
-    const colorRGB = window
-      .getComputedStyle(inputElement)
-      .getPropertyValue("background-color");
+    this.linesModal.setState({
+      modalVisible: true,
+      selectedLineInfo,
+      isEditing: true,
+    });
+  }
 
-    inputElement.placeholder = "노선의 색상이 선택되었습니다.";
-    inputElement.className = `input-color-selected ${colorClassName}`;
-    inputElement.dataset.color = colorClassName;
-    inputElement.value = colorRGB.toUpperCase();
+  #getSelectedLineInfo(selectedLineId) {
+    const { lineList } = this.state;
+    return lineList.filter(({ id }) => id === selectedLineId).pop();
+  }
+
+  handleDeleteButton({ target }) {
+    if (!target.closest("button[name=delete]")) return;
+    if (!confirm(MESSAGE.CONFIRM_DELETE)) return;
+
+    const selectedId = Number(target.closest("li").dataset.id);
+    const { lineList } = this.state;
+    const newStationList = lineList.filter(({ id }) => id !== selectedId);
+
+    this.setState({ lineList: newStationList });
+    localStorage.set("lineList", this.state.lineList);
   }
 
   handleModalSubmit(e) {
@@ -106,14 +117,7 @@ export default class LinesPage extends Component {
     const { lineList: prevList } = this.state;
     const { isEditing, selectedLineInfo } = this.linesModal.state;
     const formElement = e.target;
-    const formValues = {
-      lineName: this.#getInputValue(formElement, "subway-line-name"),
-      upStation: this.#getOptionValue(formElement, "#up-station"),
-      downStation: this.#getOptionValue(formElement, "#down-station"),
-      distance: this.#getInputValue(formElement, "distance"),
-      arrival: this.#getInputValue(formElement, "arrival"),
-      color: this.#getColorClassName(formElement, "subway-line-color"),
-    };
+    const formValues = this.#getFormValues(formElement);
     const { lineName } = formValues;
 
     if (isEditing) {
@@ -127,6 +131,17 @@ export default class LinesPage extends Component {
 
     this.linesModal.setState({ modalVisible: false });
     localStorage.set("lineList", this.state.lineList);
+  }
+
+  #getFormValues(formElement) {
+    return {
+      lineName: this.#getInputValue(formElement, "subway-line-name"),
+      upStation: this.#getOptionValue(formElement, "#up-station"),
+      downStation: this.#getOptionValue(formElement, "#down-station"),
+      distance: this.#getInputValue(formElement, "distance"),
+      arrival: this.#getInputValue(formElement, "arrival"),
+      color: this.#getColorClassName(formElement, "subway-line-color"),
+    };
   }
 
   #getInputValue(formElement, inputName) {
@@ -170,34 +185,5 @@ export default class LinesPage extends Component {
     this.setState({
       lineList: [...prevList, lineInfo],
     });
-  }
-
-  handleEditButton({ target }) {
-    if (!target.closest("button[name=edit]")) return;
-    const selectedLineId = Number(target.closest("li").dataset.id);
-    const selectedLineInfo = this.#getSelectedLineInfo(selectedLineId);
-
-    this.linesModal.setState({
-      modalVisible: true,
-      selectedLineInfo,
-      isEditing: true,
-    });
-  }
-
-  #getSelectedLineInfo(selectedLineId) {
-    const { lineList } = this.state;
-    return lineList.filter(({ id }) => id === selectedLineId).pop();
-  }
-
-  handleDeleteButton({ target }) {
-    if (!target.closest("button[name=delete]")) return;
-    if (!confirm(MESSAGE.CONFIRM_DELETE)) return;
-
-    const selectedId = Number(target.closest("li").dataset.id);
-    const { lineList } = this.state;
-    const newStationList = lineList.filter(({ id }) => id !== selectedId);
-
-    this.setState({ lineList: newStationList });
-    localStorage.set("lineList", this.state.lineList);
   }
 }

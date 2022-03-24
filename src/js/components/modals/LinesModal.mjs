@@ -118,12 +118,12 @@ export default class LinesModal extends Component {
   }
 
   setEvent() {
-    const { handleModalSubmit, handleColorSelect } = this.state;
+    const { handleModalSubmit } = this.state;
 
     this.addEvent({
       eventType: "click",
       selector: ".subway-line-color-selector",
-      callback: handleColorSelect,
+      callback: this.handleColorSelect,
     });
 
     this.addEvent({
@@ -131,6 +131,23 @@ export default class LinesModal extends Component {
       selector: "form[name=add-line]",
       callback: handleModalSubmit,
     });
+  }
+
+  handleColorSelect({ target }) {
+    if (!target.closest("button")) return;
+
+    const colorClassName = target.name;
+    const inputElement = document.querySelector(
+      "input[name=subway-line-color]"
+    );
+    const colorRGB = window
+      .getComputedStyle(inputElement)
+      .getPropertyValue("background-color");
+
+    inputElement.placeholder = "노선의 색상이 선택되었습니다.";
+    inputElement.className = `input-color-selected ${colorClassName}`;
+    inputElement.dataset.color = colorClassName;
+    inputElement.value = colorRGB.toUpperCase();
   }
 
   updated() {
