@@ -4,7 +4,11 @@ import { colorOptions } from "js/utils/mock.js";
 
 export default class LinesModal extends Component {
   render() {
-    const { modalVisible, stationList } = this.state;
+    const { modalVisible, stationList, selectedLineInfo, isEditing } =
+      this.state;
+
+    const { lineName, upStation, downStation, distance, arrival } =
+      selectedLineInfo;
 
     const content = `
       <form name="add-line">
@@ -17,6 +21,7 @@ export default class LinesModal extends Component {
             id="subway-line-name"
             name="subway-line-name"
             class="input-field"
+            value="${isEditing ? lineName : ""}"
             placeholder="노선 이름"
             required
           />
@@ -26,18 +31,22 @@ export default class LinesModal extends Component {
             상행역
           </label>
           <select id="up-station" class="mr-2">
-            <option value="" selected disabled hidden>
-              상행역
-            </option>
+            ${
+              isEditing
+                ? `<option value="" selected hidden>${upStation}</option>`
+                : `<option value="" selected disabled hidden>상행역</option>`
+            }
             ${stationList.map((station) => `<option>${station}</option>`)}
           </select>
           <label for="down-station" class="input-label" hidden>
             하행역
           </label>
           <select id="down-station">
-            <option value="" selected disabled hidden>
-              하행역
-            </option>
+            ${
+              isEditing
+                ? `<option value="" selected hidden>${downStation}</option>`
+                : `<option value="" selected disabled hidden>하행역</option>`
+            }
             ${stationList.map((station) => `<option>${station}</option>`)}
           </select>
         </div>
@@ -50,6 +59,7 @@ export default class LinesModal extends Component {
             id="distance"
             name="distance"
             class="input-field mr-2"
+            value="${isEditing ? distance : ""}"
             placeholder="상행 하행역 거리"
             required
           />
@@ -61,6 +71,7 @@ export default class LinesModal extends Component {
             id="duration"
             name="arrival"
             class="input-field"
+            value="${isEditing ? arrival : ""}"
             placeholder="상행 하행역 시간"
             required
           />
@@ -120,5 +131,23 @@ export default class LinesModal extends Component {
       selector: "form[name=add-line]",
       callback: handleModalSubmit,
     });
+  }
+
+  updated() {
+    const { color } = this.state.selectedLineInfo;
+    color && this.setInitialColor(color);
+  }
+
+  setInitialColor(color) {
+    const buttonWithColor = this.target.querySelector(`button[name=${color}]`);
+    if (!buttonWithColor) return;
+
+    const clickEvent = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+
+    buttonWithColor.dispatchEvent(clickEvent);
   }
 }

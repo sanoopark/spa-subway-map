@@ -28,9 +28,6 @@ form .input-color-selected {
   border: none;
   outline: none;
   border-radius: 2rem;
-}
-
-form .input-color-selected::placeholder {
   color: #ffffff;
 }
 
