@@ -5,8 +5,8 @@ import SectionsPage from "js/pages/SectionsPage.mjs";
 import LoginPage from "js/pages/LoginPage.mjs";
 import SignupPage from "js/pages/SignupPage.mjs";
 import IndexPage from "./pages/IndexPage.mjs";
-import { browserRoute, route } from "./router.mjs";
 import { localStorage } from "js/storage.mjs";
+import { browserRoute, route } from "simple-vanilla-router";
 
 export default class App extends Component {
   constructor(target) {

@@ -3,7 +3,7 @@ import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import { localStorage } from "js/storage.mjs";
 import { MESSAGE } from "js/constants.mjs";
-import { redirect } from "js/router.mjs";
+import { redirect } from "simple-vanilla-router";
 
 export default class SignupPage extends Component {
   mounted() {

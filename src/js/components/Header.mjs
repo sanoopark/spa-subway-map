@@ -1,5 +1,5 @@
 import Component from "js/core/Component.mjs";
-import { redirect } from "js/router.mjs";
+import { redirect } from "simple-vanilla-router";
 import { store } from "js/core/store.js";
 import { localStorage } from "js/storage.mjs";
 

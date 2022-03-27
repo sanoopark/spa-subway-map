@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/js/index.mjs",
-  "dependencies": {},
+  "dependencies": {
+    "simple-vanilla-router": "^1.0.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",

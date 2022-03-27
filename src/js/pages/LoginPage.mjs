@@ -3,7 +3,7 @@ import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import { MESSAGE } from "js/constants.mjs";
 import { localStorage } from "js/storage.mjs";
-import { redirect } from "js/router.mjs";
+import { redirect } from "simple-vanilla-router";
 import { store } from "../core/store.js";
 
 export default class LoginPage extends Component {
