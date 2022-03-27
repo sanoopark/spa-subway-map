@@ -2,7 +2,7 @@ import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import { localStorage } from "js/storage.mjs";
 import { isDuplication, isValidLength } from "js/utils/helpers.mjs";
-import SectionsModal from "js/components/modals/SectionsModal.mjs";
+import StationsModal from "js/components/modals/StationsModal.mjs";
 import { MESSAGE } from "js/constants.mjs";
 
 export default class StationsPage extends Component {
@@ -11,7 +11,7 @@ export default class StationsPage extends Component {
     const modalElement = document.querySelector(".modal");
 
     this.header = new Header(rootElement);
-    this.sectionsModal = new SectionsModal(modalElement, {
+    this.stationsModal = new StationsModal(modalElement, {
       modalVisible: false,
       handleModalSubmit: this.handleModalSubmit.bind(this),
     });
@@ -105,7 +105,7 @@ export default class StationsPage extends Component {
     const { index: stationIndex, name: stationName } =
       target.closest("li").dataset;
 
-    this.sectionsModal.setState({
+    this.stationsModal.setState({
       modalVisible: true,
       stationIndex,
       stationName,
@@ -135,7 +135,7 @@ export default class StationsPage extends Component {
     newStationList[stationIndex] = stationInputValue;
 
     this.setState({ stationList: newStationList });
-    this.sectionsModal.setState({ modalVisible: false });
+    this.stationsModal.setState({ modalVisible: false });
     localStorage.set("stationList", this.state.stationList);
   }
 }
