@@ -100,6 +100,12 @@ export default class SectionsPage extends Component {
     });
 
     this.addEvent({
+      eventType: "click",
+      selector: "ul",
+      callback: this.handleDeleteButton,
+    });
+
+    this.addEvent({
       eventType: "change",
       selector: "select#subway-line",
       callback: this.handleSelectChange,
@@ -109,6 +115,27 @@ export default class SectionsPage extends Component {
   handleAddButton() {
     this.sectionsModal.setState({
       modalVisible: true,
+    });
+  }
+
+  handleDeleteButton({ target }) {
+    if (!target.closest("button[name=delete]")) return;
+    const stationIndex = Number(target.closest("li").dataset.id);
+    const newLineList = this.#deleteStationFromList(stationIndex);
+    this.setState({ lineList: newLineList });
+    localStorage.set("lineList", newLineList);
+  }
+
+  #deleteStationFromList(stationIndex) {
+    const { lineList, selectedIndex } = this.state;
+    return lineList.map((lineInfo) => {
+      const { id, stations = [] } = lineInfo;
+      if (id === selectedIndex + 1) {
+        const newStations = [...stations];
+        newStations.splice(stationIndex, 1);
+        return { ...lineInfo, stations: newStations };
+      }
+      return lineInfo;
     });
   }
 
