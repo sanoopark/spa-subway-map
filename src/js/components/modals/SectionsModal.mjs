@@ -3,27 +3,32 @@ import Modal from "js/components/Modal.mjs";
 
 export default class SectionsModal extends Component {
   render() {
-    const { modalVisible, stationList } = this.state;
+    const { modalVisible, stationList, lineList } = this.state;
 
     const content = `
       <form>
         <div class="input-control">
           <label for="subway-line-for-section" class="input-label" hidden>노선</label>
           <select id="subway-line-for-section">
-            <option>1호선</option>
-            <option>2호선</option>
-            <option>3호선</option>
-            <option>4호선</option>
+            ${lineList
+              .map(
+                ({ id, lineName }) => `
+                <option data-id="${id}">${lineName}</option>
+              `
+              )
+              .join("")}
           </select>
         </div>
         <div class="d-flex items-center input-control">
           <label for="station-name" class="input-label" hidden>역 이름</label>
           <select id="station-name">
-            ${stationList.map(
-              (station) => `
+            ${stationList
+              .map(
+                (station) => `
                 <option>${station}</option>
               `
-            )}
+              )
+              .join("")}
           </select>
         </div>
         <div class="d-flex justify-end mt-3">

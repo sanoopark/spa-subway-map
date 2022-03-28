@@ -13,6 +13,7 @@ export default class SectionsPage extends Component {
     this.sectionsModal = new SectionsModal(modalElement, {
       modalVisible: false,
       stationList: this.state.stationList,
+      lineList: this.state.lineList,
       handleModalSubmit: this.handleModalSubmit.bind(this),
     });
   }
@@ -63,6 +64,13 @@ export default class SectionsPage extends Component {
       .join("");
   }
 
+  setOptionSelected(lineId, selectedIndex) {
+    if (lineId === selectedIndex + 1) {
+      return "selected";
+    }
+    return "";
+  }
+
   renderStationList() {
     const { lineList, selectedIndex } = this.state;
 
@@ -70,7 +78,7 @@ export default class SectionsPage extends Component {
       lineList
         .filter(({ id }) => id === selectedIndex + 1)
         .pop()
-        .stations?.map(
+        ?.stations?.map(
           (stationName, stationIndex) => `
             <li class="d-flex items-center py-2 relative" data-id="${stationIndex}">
               <span class="w-100 pl-6">${stationName}</span>
@@ -141,7 +149,7 @@ export default class SectionsPage extends Component {
 
   handleSelectChange({ target }) {
     const { selectedIndex } = target;
-    const selectColor = target.options[target.selectedIndex].dataset.color;
+    const selectColor = this.#setSelectColor(target);
 
     this.setState({
       selectColor,
@@ -149,16 +157,17 @@ export default class SectionsPage extends Component {
     });
   }
 
-  setOptionSelected(lineId, selectedIndex) {
-    if (lineId === selectedIndex + 1) {
-      return "selected";
-    }
-    return "";
+  #setSelectColor(target) {
+    return target.options[target.selectedIndex].dataset.color;
   }
 
   handleModalSubmit(e) {
     e.preventDefault();
     const formElement = e.target;
+    const selectElement = formElement.querySelector("select");
+    const lineId =
+      selectElement.options[selectElement.selectedIndex].dataset.id;
+
     const values = [...formElement.querySelectorAll("select")].map(
       ({ value }) => value
     );
@@ -171,8 +180,13 @@ export default class SectionsPage extends Component {
       selectedStationName
     );
 
-    this.setState({ lineList: newLineList });
+    this.setState({ lineList: newLineList, selectedIndex: lineId - 1 });
     localStorage.set("lineList", newLineList);
+
+    const selectColor = this.#setSelectColor(
+      this.target.querySelector("select#subway-line")
+    );
+    this.setState({ selectColor });
     this.sectionsModal.setState({
       modalVisible: false,
     });
