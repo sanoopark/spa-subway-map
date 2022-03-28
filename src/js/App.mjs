@@ -44,6 +44,12 @@ export default class App extends Component {
       path: "/sections",
       target: this.target,
       component: SectionsPage,
+      state: {
+        lineList: localStorage.get("lineList") || [],
+        stationList: localStorage.get("stationList") || [],
+        selectColor: "",
+        selectedIndex: 0,
+      },
     });
 
     route({
