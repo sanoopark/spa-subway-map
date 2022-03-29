@@ -2,6 +2,7 @@ import "css/pages/sections.css";
 import Component from "js/core/Component.mjs";
 import Header from "js/components/Header.mjs";
 import SectionsModal from "../components/modals/SectionsModal.mjs";
+import StationsModal from "../components/modals/StationsModal.mjs";
 import { localStorage } from "js/storage.mjs";
 
 export default class SectionsPage extends Component {
@@ -14,7 +15,7 @@ export default class SectionsPage extends Component {
       modalVisible: false,
       stationList: this.state.stationList,
       lineList: this.state.lineList,
-      handleModalSubmit: this.handleModalSubmit.bind(this),
+      handleModalSubmit: this.handleSectionsModalSubmit.bind(this),
     });
   }
 
@@ -78,7 +79,7 @@ export default class SectionsPage extends Component {
         .pop()
         ?.stations?.map(
           (stationName, stationIndex) => `
-            <li class="d-flex items-center py-2 relative" data-id="${stationIndex}">
+            <li class="d-flex items-center py-2 relative" data-id="${stationIndex}" data-name="${stationName}">
               <span class="w-100 pl-6">${stationName}</span>
               <button
                 type="button"
@@ -112,6 +113,12 @@ export default class SectionsPage extends Component {
     });
 
     this.addEvent({
+      eventType: "click",
+      selector: "ul",
+      callback: this.handleEditButton,
+    });
+
+    this.addEvent({
       eventType: "change",
       selector: "select#subway-line",
       callback: this.handleSelectChange,
@@ -142,15 +149,59 @@ export default class SectionsPage extends Component {
       const { id: lineId, stations = [] } = lineInfo;
       const isNotSelectedLine = lineId !== selectedIndex + 1;
       if (isNotSelectedLine) return lineInfo;
-      const newStations = this.#makeNewStations(stations, stationIndex);
+      const newStations = this.#spliceStations(stations, stationIndex);
       return { ...lineInfo, stations: newStations };
     };
     return lineList.map(makeNewLineList);
   }
 
-  #makeNewStations(stations, stationIndex) {
+  #spliceStations(stations, stationIndex) {
     const newStations = [...stations];
     newStations.splice(stationIndex, 1);
+    return newStations;
+  }
+
+  handleEditButton({ target }) {
+    if (!target.closest("button[name=edit]")) return;
+    const modalElement = document.querySelector(".modal");
+    const { id: stationIndex, name: stationName } =
+      target.closest("li").dataset;
+
+    this.stationsModal = new StationsModal(modalElement, {
+      modalVisible: true,
+      stationIndex,
+      stationName,
+      handleModalSubmit: this.handleStationModalSubmit.bind(this),
+    });
+  }
+
+  handleStationModalSubmit(e) {
+    e.preventDefault();
+    const formElement = e.target;
+    const stationIndex = Number(formElement.dataset.index);
+    const stationInputValue = formElement.querySelector("input").value;
+    const { lineList, selectedIndex } = this.state;
+
+    const newLineList = lineList.map((lineInfo) => {
+      const { id: lineId, stations = [] } = lineInfo;
+      const isNotSelectedLine = lineId !== selectedIndex + 1;
+      if (isNotSelectedLine) return lineInfo;
+      const newStations = this.#editStations(
+        stations,
+        stationIndex,
+        stationInputValue
+      );
+      return { ...lineInfo, stations: newStations };
+    });
+
+    this.stationsModal.setState({ modalVisible: false });
+    this.setState({ lineList: newLineList });
+    localStorage.set("lineList", newLineList);
+  }
+
+  #editStations(stations, stationIndex, stationInputValue) {
+    const newStations = [...stations];
+    newStations[stationIndex] = stationInputValue;
     return newStations;
   }
 
@@ -168,7 +219,7 @@ export default class SectionsPage extends Component {
     return selectElement.options[selectElement.selectedIndex];
   }
 
-  handleModalSubmit(e) {
+  handleSectionsModalSubmit(e) {
     e.preventDefault();
     const formElement = e.target;
 

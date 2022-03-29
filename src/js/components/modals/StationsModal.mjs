@@ -8,13 +8,13 @@ export default class SectionsModal extends Component {
     const content = `
       <form data-index="${stationIndex}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
         <div class="input-control">
-          <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
+          <label for="subway-line-name" class="input-label" hidden>역 이름</label>
           <input
             type="text"
             id="station-name"
             name="station-name"
             class="input-field"
-            value="${stationName}"
+            value="${stationName || ""}"
             required
           />
         </div>
