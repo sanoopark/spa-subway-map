@@ -65,10 +65,8 @@ export default class SectionsPage extends Component {
   }
 
   setOptionSelected(lineId, selectedIndex) {
-    if (lineId === selectedIndex + 1) {
-      return "selected";
-    }
-    return "";
+    if (lineId === selectedIndex + 1) return "selected";
+    else return "";
   }
 
   renderStationList() {
@@ -121,8 +119,12 @@ export default class SectionsPage extends Component {
   }
 
   handleAddButton() {
+    this.#toggleSectionsModal(true);
+  }
+
+  #toggleSectionsModal(isVisible) {
     this.sectionsModal.setState({
-      modalVisible: true,
+      modalVisible: isVisible,
     });
   }
 
@@ -136,20 +138,25 @@ export default class SectionsPage extends Component {
 
   #deleteStationFromList(stationIndex) {
     const { lineList, selectedIndex } = this.state;
-    return lineList.map((lineInfo) => {
-      const { id, stations = [] } = lineInfo;
-      if (id === selectedIndex + 1) {
-        const newStations = [...stations];
-        newStations.splice(stationIndex, 1);
-        return { ...lineInfo, stations: newStations };
-      }
-      return lineInfo;
-    });
+    const makeNewLineList = (lineInfo) => {
+      const { id: lineId, stations = [] } = lineInfo;
+      const isNotSelectedLine = lineId !== selectedIndex + 1;
+      if (isNotSelectedLine) return lineInfo;
+      const newStations = this.#makeNewStations(stations, stationIndex);
+      return { ...lineInfo, stations: newStations };
+    };
+    return lineList.map(makeNewLineList);
+  }
+
+  #makeNewStations(stations, stationIndex) {
+    const newStations = [...stations];
+    newStations.splice(stationIndex, 1);
+    return newStations;
   }
 
   handleSelectChange({ target }) {
     const { selectedIndex } = target;
-    const selectColor = this.#setSelectColor(target);
+    const { color: selectColor } = this.#getSelectedOption(target).dataset;
 
     this.setState({
       selectColor,
@@ -157,48 +164,52 @@ export default class SectionsPage extends Component {
     });
   }
 
-  #setSelectColor(target) {
-    return target.options[target.selectedIndex].dataset.color;
+  #getSelectedOption(selectElement) {
+    return selectElement.options[selectElement.selectedIndex];
   }
 
   handleModalSubmit(e) {
     e.preventDefault();
     const formElement = e.target;
-    const selectElement = formElement.querySelector("select");
-    const lineId =
-      selectElement.options[selectElement.selectedIndex].dataset.id;
 
-    const values = [...formElement.querySelectorAll("select")].map(
-      ({ value }) => value
-    );
-    const { lineList } = this.state;
-    const [selectedLineName, selectedStationName] = values;
+    const [selectedLineName, selectedStationName] =
+      this.#getModalSelectValues(formElement);
 
     const newLineList = this.#addNewStationToList(
-      lineList,
+      this.state.lineList,
       selectedLineName,
       selectedStationName
     );
 
-    this.setState({ lineList: newLineList, selectedIndex: lineId - 1 });
-    localStorage.set("lineList", newLineList);
+    const lineId =
+      newLineList.map(({ lineName }) => lineName).indexOf(selectedLineName) + 1;
 
-    const selectColor = this.#setSelectColor(
-      this.target.querySelector("select#subway-line")
-    );
-    this.setState({ selectColor });
-    this.sectionsModal.setState({
-      modalVisible: false,
-    });
+    this.#setNewLineList(newLineList, lineId);
+    this.#setNewLineColorToSelect();
+    this.#toggleSectionsModal(false);
+  }
+
+  #getModalSelectValues(formElement) {
+    const modalSelectElements = formElement.querySelectorAll("select");
+    return [...modalSelectElements].map(({ value }) => value);
   }
 
   #addNewStationToList(lineList, selectedLineName, selectedStationName) {
     return lineList.map((lineInfo) => {
       const { lineName, stations = [] } = lineInfo;
-      if (lineName === selectedLineName) {
-        return { ...lineInfo, stations: [...stations, selectedStationName] };
-      }
-      return lineInfo;
+      if (lineName !== selectedLineName) return lineInfo;
+      return { ...lineInfo, stations: [...stations, selectedStationName] };
     });
+  }
+
+  #setNewLineList(newLineList, lineId) {
+    this.setState({ lineList: newLineList, selectedIndex: lineId - 1 });
+    localStorage.set("lineList", newLineList);
+  }
+
+  #setNewLineColorToSelect() {
+    const lineSelectElement = this.target.querySelector("select#subway-line");
+    const { color } = this.#getSelectedOption(lineSelectElement).dataset;
+    this.setState({ selectColor: color });
   }
 }
