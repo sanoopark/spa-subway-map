@@ -5,6 +5,7 @@ import SectionsPage from "js/pages/SectionsPage.mjs";
 import LoginPage from "js/pages/LoginPage.mjs";
 import SignupPage from "js/pages/SignupPage.mjs";
 import IndexPage from "./pages/IndexPage.mjs";
+import MapPage from "./pages/MapPage.mjs";
 import { localStorage } from "js/storage.mjs";
 import { browserRoute, route } from "simple-vanilla-router";
 
@@ -50,6 +51,12 @@ export default class App extends Component {
         selectColor: "",
         selectedIndex: 0,
       },
+    });
+
+    route({
+      path: "/map",
+      target: this.target,
+      component: MapPage,
     });
 
     route({

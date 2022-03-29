@@ -4,6 +4,7 @@ export default class Component {
   constructor(target, props) {
     this.target = target;
     this.state = props;
+    this.setup();
     this.render();
     this.setEvent();
     this.mounted();
@@ -12,6 +13,8 @@ export default class Component {
       this.rerender();
     });
   }
+
+  setup() {}
 
   render() {}
 
