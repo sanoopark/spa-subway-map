@@ -6,6 +6,7 @@ import LoginPage from "js/pages/LoginPage.mjs";
 import SignupPage from "js/pages/SignupPage.mjs";
 import IndexPage from "./pages/IndexPage.mjs";
 import MapPage from "./pages/MapPage.mjs";
+import SearchPage from "./pages/SearchPage.mjs";
 import { localStorage } from "js/storage.mjs";
 import { browserRoute, route } from "simple-vanilla-router";
 
@@ -57,6 +58,12 @@ export default class App extends Component {
       path: "/map",
       target: this.target,
       component: MapPage,
+    });
+
+    route({
+      path: "/search",
+      target: this.target,
+      component: SearchPage,
     });
 
     route({
