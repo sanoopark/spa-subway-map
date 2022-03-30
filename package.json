@@ -4,11 +4,13 @@
   "description": "",
   "main": "src/js/index.mjs",
   "dependencies": {
+    "@babel/runtime": "^7.17.8",
     "simple-vanilla-router": "^1.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
+    "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.7.1",
