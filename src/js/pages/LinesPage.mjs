@@ -161,10 +161,11 @@ export default class LinesPage extends Component {
   #editSelectedLine(selectedLineInfo, formValues) {
     const editingLineId = selectedLineInfo.id;
     const editedLineList = this.state.lineList.map((line) => {
-      const currentLineId = line.id;
+      const { id: currentLineId, stations } = line;
       if (currentLineId === editingLineId) {
         return {
           id: currentLineId,
+          stations,
           ...formValues,
         };
       }
@@ -180,6 +181,7 @@ export default class LinesPage extends Component {
     const id = prevList.length + 1;
     const lineInfo = {
       id,
+      stations: [],
       ...formValues,
     };
 
