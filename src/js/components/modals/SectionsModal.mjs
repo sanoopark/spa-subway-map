@@ -24,8 +24,8 @@ export default class SectionsModal extends Component {
           <select id="station-name">
             ${stationList
               .map(
-                (station) => `
-                <option>${station}</option>
+                ({ name }) => `
+                <option>${name}</option>
               `
               )
               .join("")}

@@ -56,7 +56,7 @@ export default class StationsPage extends Component {
         <ul class="mt-3 pl-0">
           ${stationList
             .map(
-              (stationName, index) => `
+              ({ name: stationName }, index) => `
                 <li class="station-list-item d-flex items-center py-2" data-index="${index}" data-name="${stationName}">
                   <span class="w-100 pl-2">${stationName}</span>
                   <button type="button" name="edit" class="bg-gray-50 text-gray-500 text-sm mr-1">
@@ -96,13 +96,15 @@ export default class StationsPage extends Component {
   handleSubmitButton(e) {
     e.preventDefault();
 
-    const userInput = this.target.querySelector(".input-field").value;
+    const userInput = this.target.querySelector(".input-field").value.trim();
     const { stationList: prevList } = this.state;
 
     if (isValidLength({ userInput, min: 2, max: 20 })) return;
     if (isDuplication({ element: userInput, array: prevList })) return;
 
-    this.setState({ stationList: [...prevList, userInput] });
+    this.setState({
+      stationList: [...prevList, { name: userInput, linked: false }],
+    });
     localStorage.set("stationList", this.state.stationList);
   }
 
@@ -120,10 +122,17 @@ export default class StationsPage extends Component {
 
   handleDeleteButton({ target }) {
     if (!target.closest("button[name=delete]")) return;
-    if (!confirm(MESSAGE.CONFIRM_DELETE)) return;
 
     const { index: stationIndex } = target.closest("li").dataset;
     const { stationList } = this.state;
+
+    if (stationList[stationIndex].linked) {
+      alert(MESSAGE.CANNOT_DELETE);
+      return;
+    }
+
+    if (!confirm(MESSAGE.CONFIRM_DELETE)) return;
+
     const newStationList = [...stationList];
     newStationList.splice(stationIndex, 1);
 
@@ -138,7 +147,7 @@ export default class StationsPage extends Component {
     const stationInputValue = formElement.querySelector("input").value;
     const { stationList } = this.state;
     const newStationList = [...stationList];
-    newStationList[stationIndex] = stationInputValue;
+    newStationList[stationIndex] = { name: stationInputValue, linked: false };
 
     this.setState({ stationList: newStationList });
     this.stationsModal.setState({ modalVisible: false });

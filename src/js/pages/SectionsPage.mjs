@@ -146,10 +146,12 @@ export default class SectionsPage extends Component {
 
   handleDeleteButton({ target }) {
     if (!target.closest("button[name=delete]")) return;
-    const stationIndex = Number(target.closest("li").dataset.id);
+    const { id: stationIndex, name: stationName } =
+      target.closest("li").dataset;
     const newLineList = this.#deleteStationFromList(stationIndex);
     this.setState({ lineList: newLineList });
     localStorage.set("lineList", newLineList);
+    this.#toggleStationListLinked(stationName);
   }
 
   #deleteStationFromList(stationIndex) {
@@ -168,6 +170,18 @@ export default class SectionsPage extends Component {
     const newStations = [...stations];
     newStations.splice(stationIndex, 1);
     return newStations;
+  }
+
+  #toggleStationListLinked(selectedStationName) {
+    const { stationList } = this.state;
+
+    stationList.forEach((station) => {
+      if (station.name === selectedStationName) {
+        station.linked = !station.linked;
+      }
+    });
+
+    localStorage.set("stationList", stationList);
   }
 
   handleEditButton({ target }) {
@@ -234,6 +248,8 @@ export default class SectionsPage extends Component {
 
     const [selectedLineName, selectedStationName] =
       this.#getModalSelectValues(formElement);
+
+    this.#toggleStationListLinked(selectedStationName);
 
     const newLineList = this.#addNewStationToList(
       this.state.lineList,

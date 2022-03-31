@@ -36,7 +36,7 @@ export default class LinesModal extends Component {
                 ? `<option value="" selected hidden>${upStation}</option>`
                 : `<option value="" selected disabled hidden>상행역</option>`
             }
-            ${stationList.map((station) => `<option>${station}</option>`)}
+            ${stationList.map(({ name }) => `<option>${name}</option>`)}
           </select>
           <label for="down-station" class="input-label" hidden>
             하행역
@@ -47,7 +47,7 @@ export default class LinesModal extends Component {
                 ? `<option value="" selected hidden>${downStation}</option>`
                 : `<option value="" selected disabled hidden>하행역</option>`
             }
-            ${stationList.map((station) => `<option>${station}</option>`)}
+            ${stationList.map(({ name }) => `<option>${name}</option>`)}
           </select>
         </div>
         <div class="input-control">

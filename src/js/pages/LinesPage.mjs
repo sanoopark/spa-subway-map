@@ -86,6 +86,7 @@ export default class LinesPage extends Component {
     this.linesModal.setState({
       modalVisible: true,
       selectedLineInfo: {},
+      isEditing: false,
     });
   }
 
