@@ -5,4 +5,5 @@ export const MESSAGE = {
   CONFIRM_DELETE: "정말 삭제하시겠습니까?",
   SERVER_ERROR: "서버 에러입니다. 다시 시도해 주세요.",
   CANNOT_DELETE: "구간에 등록된 역은 삭제할 수 없습니다.",
+  LOGIN_REQUIRED: "로그인이 필요합니다.",
 };

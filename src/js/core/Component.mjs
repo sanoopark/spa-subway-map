@@ -1,4 +1,7 @@
 import { observe } from "./observer.js";
+import { store } from "../core/store.js";
+import { redirect } from "simple-vanilla-router";
+import { MESSAGE } from "../constants.mjs";
 
 export default class Component {
   constructor(target, props) {
@@ -33,6 +36,12 @@ export default class Component {
   }
 
   setState(newState) {
+    if (!store.state.isLoggedIn) {
+      alert(MESSAGE.LOGIN_REQUIRED);
+      redirect("/login");
+      return;
+    }
+
     this.state = {
       ...this.state,
       ...newState,
