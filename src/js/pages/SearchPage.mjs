@@ -164,10 +164,10 @@ export default class SearchPage extends Component {
       return;
     }
 
-    const searchResult = response.data.result.station.map(
-      ({ stationID, stationName }) => {
+    const searchResult = this.#removeDuplicate(
+      response.data.result.station.map(({ stationID, stationName }) => {
         return { stationID, stationName };
-      }
+      })
     );
 
     switch (target.name) {
@@ -184,6 +184,18 @@ export default class SearchPage extends Component {
         });
         break;
     }
+  }
+
+  #removeDuplicate(duplicateResult) {
+    const uniqueStationNames = [];
+    const uniqueSearchResult = [];
+    duplicateResult.forEach(({ stationID, stationName }) => {
+      if (!uniqueStationNames.includes(stationName)) {
+        uniqueStationNames.push(stationName);
+        uniqueSearchResult.push({ stationID, stationName });
+      }
+    });
+    return uniqueSearchResult;
   }
 
   handleSearchResultClick({ target }) {
