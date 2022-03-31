@@ -88,10 +88,6 @@ export default class SignupPage extends Component {
     });
   }
 
-  /**
-   * @todo 유효성 검사 추가
-   * @todo 로컬스토리지 -> API
-   */
   handleSignupButton() {
     const userAuthInfo = this.#processUserInputValues(".input-field");
     const [isConfirmedPassword, isEmptyInput] =

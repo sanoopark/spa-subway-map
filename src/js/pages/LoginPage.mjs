@@ -73,10 +73,6 @@ export default class LoginPage extends Component {
     });
   }
 
-  /**
-   * @todo 유효성 검사 추가
-   * @todo 로컬스토리지 -> API
-   */
   handleLoginButton() {
     const inputValues = this.#processUserInputValues();
     const userAuthInfo = localStorage.get("userAuthInfo") || {};

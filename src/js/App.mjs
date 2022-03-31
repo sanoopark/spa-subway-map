@@ -7,7 +7,6 @@ import SignupPage from "js/pages/SignupPage.mjs";
 import IndexPage from "./pages/IndexPage.mjs";
 import MapPage from "./pages/MapPage.mjs";
 import SearchPage from "./pages/SearchPage.mjs";
-import { localStorage } from "js/storage.mjs";
 import { browserRoute, route } from "simple-vanilla-router";
 
 export default class App extends Component {
@@ -28,30 +27,18 @@ export default class App extends Component {
       path: "/lines",
       target: this.target,
       component: LinesPage,
-      state: {
-        lineList: localStorage.get("lineList") || [],
-      },
     });
 
     route({
       path: "/stations",
       target: this.target,
       component: StationsPage,
-      state: {
-        stationList: localStorage.get("stationList") || [],
-      },
     });
 
     route({
       path: "/sections",
       target: this.target,
       component: SectionsPage,
-      state: {
-        lineList: localStorage.get("lineList") || [],
-        stationList: localStorage.get("stationList") || [],
-        selectColor: "",
-        selectedIndex: 0,
-      },
     });
 
     route({

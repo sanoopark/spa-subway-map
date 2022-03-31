@@ -6,6 +6,15 @@ import StationsModal from "../components/modals/StationsModal.mjs";
 import { localStorage } from "js/storage.mjs";
 
 export default class SectionsPage extends Component {
+  setup() {
+    this.state = {
+      lineList: localStorage.get("lineList") || [],
+      stationList: localStorage.get("stationList") || [],
+      selectColor: "",
+      selectedIndex: 0,
+    };
+  }
+
   mounted() {
     const rootElement = this.target;
     const modalElement = document.querySelector(".modal");

@@ -7,6 +7,12 @@ import { isDuplication, isValidLength } from "js/utils/helpers.mjs";
 import { MESSAGE } from "js/constants.mjs";
 
 export default class LinesPage extends Component {
+  setup() {
+    this.state = {
+      lineList: localStorage.get("lineList") || [],
+    };
+  }
+
   mounted() {
     const rootElement = this.target;
     const modalElement = document.querySelector(".modal");
@@ -28,31 +34,30 @@ export default class LinesPage extends Component {
 
     mainElement.innerHTML = `
       <div class="wrapper bg-white p-10">
-      <div class="heading d-flex">
-        <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
-        <button
-          type="button"
-          class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2"
-          name="add-lines"
-        >
-          노선 추가
-        </button>
-      </div>
-      <ul class="mt-3 pl-0">
-        ${lineList
-          .map(
-            ({ id, lineName, color }) => `
-              <li class="d-flex items-center py-2 relative" data-id=${id}>
-                <span class="subway-line-color-dot ${color}"></span>
-                <span class="w-100 pl-6 subway-line-list-item-name">${lineName}</span>
-                <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1" name="edit">수정</button>
-                <button type="button" class="bg-gray-50 text-gray-500 text-sm" name="delete">삭제</button>
-              </li>
-              <hr class="my-0" />
-            `
-          )
-          .join("")}
-      </ul>
+        <div class="heading d-flex">
+          <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
+          <button
+            type="button"
+            class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2"
+            name="add-lines"
+          >노선 추가
+          </button>
+        </div>
+        <ul class="mt-3 pl-0">
+          ${lineList
+            .map(
+              ({ id, lineName, color }) => `
+                <li class="d-flex items-center py-2 relative" data-id=${id}>
+                  <span class="subway-line-color-dot ${color}"></span>
+                  <span class="w-100 pl-6 subway-line-list-item-name">${lineName}</span>
+                  <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1" name="edit">수정</button>
+                  <button type="button" class="bg-gray-50 text-gray-500 text-sm" name="delete">삭제</button>
+                </li>
+                <hr class="my-0" />
+              `
+            )
+            .join("")}
+        </ul>
       </div>
     `;
   }

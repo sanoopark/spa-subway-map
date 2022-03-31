@@ -6,6 +6,12 @@ import StationsModal from "js/components/modals/StationsModal.mjs";
 import { MESSAGE } from "js/constants.mjs";
 
 export default class StationsPage extends Component {
+  setup() {
+    this.state = {
+      stationList: localStorage.get("stationList") || [],
+    };
+  }
+
   mounted() {
     const rootElement = this.target;
     const modalElement = document.querySelector(".modal");
