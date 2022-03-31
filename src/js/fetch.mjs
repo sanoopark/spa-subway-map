@@ -35,4 +35,20 @@ export const api = {
       };
     }
   },
+  fetchRouteSearchResult: async (SID, EID) => {
+    try {
+      const data = await request(
+        `https://api.odsay.com/v1/api/subwayPath?apiKey=${API_KEY}&lang=0&CID=1000&SID=${SID}&EID=${EID}&Sopt=1`
+      );
+      return {
+        isError: false,
+        data,
+      };
+    } catch (e) {
+      return {
+        isError: true,
+        data: e,
+      };
+    }
+  },
 };

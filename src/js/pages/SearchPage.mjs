@@ -9,10 +9,15 @@ const END_STATION = "end-station";
 
 export default class SearchPage extends Component {
   setup() {
-    this.state.startStation = "";
-    this.state.endStation = "";
-    this.state.startSearchResult = [];
-    this.state.endSearchResult = [];
+    this.state = {
+      startStation: "",
+      endStation: "",
+      startStationID: "",
+      endStationID: "",
+      startSearchResult: [],
+      endSearchResult: [],
+      shortestPath: [],
+    };
   }
 
   mounted() {
@@ -21,8 +26,13 @@ export default class SearchPage extends Component {
 
   render() {
     const mainElement = this.target.querySelector("main");
-    const { startStation, endStation, startSearchResult, endSearchResult } =
-      this.state;
+    const {
+      startStation,
+      endStation,
+      startSearchResult,
+      endSearchResult,
+      shortestPath,
+    } = this.state;
 
     mainElement.innerHTML = `
       <div class="search-wrapper p-10 bg-white">
@@ -52,6 +62,7 @@ export default class SearchPage extends Component {
                   .join("")}
               </ul>
             </div>
+            <span>➡️</span>
             <label for="station-name" class="input-label" hidden>도착역</label>
             <div class="relative d-flex items-center">
               <input
@@ -80,7 +91,26 @@ export default class SearchPage extends Component {
             검색
             </button>
         </form>
-        <div class="ml-2 mt-12"></div>
+        <ul class="route-search-list">
+          ${
+            shortestPath.length > 0
+              ? `<h3>⏱ 최단 거리 기준 ${
+                  shortestPath[shortestPath.length - 1]?.travelTime
+                }분 소요</h3>`
+              : ""
+          }
+          ${shortestPath
+            .map(
+              ({ endName, travelTime }) => `
+                <li class="route-search-item">
+                  <span>${endName}</span>
+                  <span>${travelTime}분</button>
+                </li>
+                <hr class="my-0" />
+              `
+            )
+            .join("")}
+        </ul>
       <div>
     `;
   }
@@ -111,7 +141,13 @@ export default class SearchPage extends Component {
     this.addEvent({
       eventType: "click",
       selector: "form",
-      callback: this.handleSearchResultClick.bind(this),
+      callback: this.handleSearchResultClick,
+    });
+
+    this.addEvent({
+      eventType: "click",
+      selector: "button[name=submit]",
+      callback: this.handleSubmit,
     });
   }
 
@@ -131,28 +167,72 @@ export default class SearchPage extends Component {
         return { stationID, stationName };
       }
     );
-    if (target.name === START_STATION) {
-      this.setState({
-        startSearchResult: searchResult,
-        startStation: inputValue,
-      });
-    } else {
-      this.setState({ endSearchResult: searchResult, endStation: inputValue });
+
+    switch (target.name) {
+      case START_STATION:
+        this.setState({
+          startSearchResult: searchResult,
+          startStation: inputValue,
+        });
+        break;
+      case END_STATION:
+        this.setState({
+          endSearchResult: searchResult,
+          endStation: inputValue,
+        });
+        break;
     }
   }
 
   handleSearchResultClick({ target }) {
     if (!target.closest("li")) return;
-    const inputType = target.dataset.type;
+    const { type: inputType, id: stationID } = target.dataset;
     const stationName = target.textContent.trim();
 
     switch (inputType) {
       case START_STATION:
-        this.setState({ startStation: stationName, startSearchResult: [] });
+        this.setState({
+          startStation: stationName,
+          startStationID: stationID,
+          startSearchResult: [],
+        });
         break;
       case END_STATION:
-        this.setState({ endStation: stationName, endSearchResult: [] });
+        this.setState({
+          endStation: stationName,
+          endStationID: stationID,
+          endSearchResult: [],
+        });
         break;
     }
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+
+    const { startStationID, endStationID } = this.state;
+
+    if (!startStationID || !endStationID) {
+      alert(MESSAGE.INPUT_EMPTY);
+      return;
+    }
+
+    const response = await api.fetchRouteSearchResult(
+      startStationID,
+      endStationID
+    );
+
+    if (response.isError) {
+      alert(MESSAGE.SERVER_ERROR);
+      return;
+    }
+
+    const shortestPath = response.data.result.stationSet.stations.map(
+      ({ endName, travelTime }) => {
+        return { endName, travelTime };
+      }
+    );
+
+    this.setState({ shortestPath });
   }
 }
