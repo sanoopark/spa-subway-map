@@ -80,6 +80,7 @@ export default class LinesPage extends Component {
   handleAddButton() {
     this.linesModal.setState({
       modalVisible: true,
+      selectedLineInfo: {},
     });
   }
 
