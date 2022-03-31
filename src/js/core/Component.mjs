@@ -12,8 +12,9 @@ export default class Component {
     this.setEvent();
     this.mounted();
 
-    observe(() => {
-      this.rerender();
+    observe({
+      target: this.constructor.name,
+      observer: this.rerender.bind(this),
     });
   }
 
