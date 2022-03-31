@@ -17,6 +17,8 @@ export default class SearchPage extends Component {
       startSearchResult: [],
       endSearchResult: [],
       shortestPath: [],
+      globalTravelTime: null,
+      globalDistance: null,
     };
   }
 
@@ -32,6 +34,8 @@ export default class SearchPage extends Component {
       startSearchResult,
       endSearchResult,
       shortestPath,
+      globalTravelTime,
+      globalDistance,
     } = this.state;
 
     mainElement.innerHTML = `
@@ -94,9 +98,7 @@ export default class SearchPage extends Component {
         <ul class="route-search-list">
           ${
             shortestPath.length > 0
-              ? `<h3>⏱ 최단 거리 기준 ${
-                  shortestPath[shortestPath.length - 1]?.travelTime
-                }분 소요</h3>`
+              ? `<h3> 최단 거리 : ${globalDistance} km <br/> 소요 시간 : ${globalTravelTime} 분</h3>`
               : ""
           }
           ${shortestPath
@@ -227,12 +229,13 @@ export default class SearchPage extends Component {
       return;
     }
 
+    const { globalTravelTime, globalDistance } = response.data.result;
     const shortestPath = response.data.result.stationSet.stations.map(
       ({ endName, travelTime }) => {
         return { endName, travelTime };
       }
     );
 
-    this.setState({ shortestPath });
+    this.setState({ globalTravelTime, globalDistance, shortestPath });
   }
 }
