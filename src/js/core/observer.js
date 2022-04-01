@@ -1,4 +1,4 @@
-const hideCurrentObserver = () => {
+const currentObserverAccessor = () => {
   let _currentObserver = null;
 
   return {
@@ -7,7 +7,7 @@ const hideCurrentObserver = () => {
   };
 };
 
-const currentObserver = hideCurrentObserver();
+const currentObserver = currentObserverAccessor();
 
 export const observe = ({ target, observer }) => {
   currentObserver.set({ target, observer });
