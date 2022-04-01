@@ -8,14 +8,16 @@ export default class Component {
     this.target = target;
     this.state = props;
     this.setup();
-    this.render();
-    this.setEvent();
-    this.mounted();
 
     observe({
       target: this.constructor.name,
-      observer: this.rerender.bind(this),
+      observer: () => {
+        this.render();
+        this.setEvent();
+      },
     });
+
+    this.mounted();
   }
 
   setup() {}
@@ -47,13 +49,10 @@ export default class Component {
       ...this.state,
       ...newState,
     };
-    this.rerender();
-    this.updated();
-  }
 
-  rerender() {
     this.render();
     this.setEvent();
+    this.updated();
   }
 
   updated() {}
