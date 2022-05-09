@@ -1,40 +1,39 @@
-const currentObserverAccessor = () => {
-  let _currentObserver = null;
+const currentObserver = { component: null, observer: null };
 
-  return {
-    get: () => _currentObserver,
-    set: (newObserver) => (_currentObserver = newObserver),
-  };
+const setCurrentObserver = ({ component, observer }) => {
+  currentObserver.component = component;
+  currentObserver.observer = observer;
 };
 
-const currentObserver = currentObserverAccessor();
-
-export const observe = ({ target, observer }) => {
-  currentObserver.set({ target, observer });
+export const observe = ({ component, observer }) => {
+  setCurrentObserver({ component, observer });
   observer();
-  currentObserver.set({ target: null, observer: null });
+  setCurrentObserver({ component: null, observer: null });
 };
 
 export const observable = (state) => {
   Object.entries(state).forEach(([key, value]) => {
-    redefineState(state, key, value);
+    makeObservable(state, key, value);
   });
+
   return state;
 };
 
-const redefineState = (state, key, value) => {
+const makeObservable = (state, key, value) => {
   const observers = new Set();
-  const targets = new Set();
+  const components = new Set();
   let currentValue = value;
 
   Object.defineProperty(state, key, {
     get() {
-      const { target, observer } = currentObserver.get();
-      const isNotObserving = target && !targets.has(target);
+      const { component, observer } = currentObserver;
+      const isNotObserving = component && !components.has(component);
+
       if (isNotObserving) {
         observers.add(observer);
-        targets.add(target);
+        components.add(component);
       }
+
       return currentValue;
     },
     set(newValue) {

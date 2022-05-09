@@ -10,7 +10,7 @@ export default class Component {
     this.setup();
 
     observe({
-      target: this.constructor.name,
+      component: this.constructor.name,
       observer: () => {
         this.render();
         this.setEvent();
